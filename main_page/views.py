@@ -14,3 +14,4 @@ def join(request):
 def mypage(request):
     return render(request, 'main_page/my_page.html')
 
+

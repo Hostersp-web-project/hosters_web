@@ -12,20 +12,33 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# reading .env file
+environ.Env.read_env()
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-&p2_e_#_1gy_#e)_q)i#7v#lzz05ep3s+!lgw5l*sa&l-)&tl("
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -39,6 +52,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "main_page",
     'django.contrib.sites',
+    'surveys',
 
 
     'allauth',
@@ -169,4 +183,13 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL='http'
 LOGIN_REDIRECT_URL = '/hosters/main/'
+
+ACCOUNT_LOGOUT_REDIRECT_URL = '/hosters/main/'
+# 로그아웃 버튼 클릭 시 자동 로그아웃
+ACCOUNT_LOGOUT_ON_GET = True
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY =  env('SOCIAL_AUTH_GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =  env('SOCIAL_AUTH_GOOGLE_SECRET')
