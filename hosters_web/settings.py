@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 import environ
+from pathlib import Path
+
 
 env = environ.Env(
     # set casting, default value
@@ -23,20 +25,14 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # reading .env file
-environ.Env.read_env()
+environ.Env.read_env(
+    env_file=os.path.join(BASE_DIR, '.env')
+)
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+SECRET_KEY = env('SECRET_KEY')
 ALLOWED_HOSTS = []
 
 
@@ -183,7 +179,6 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
-
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='http'
 LOGIN_REDIRECT_URL = '/hosters/main/'
 
@@ -193,3 +188,5 @@ ACCOUNT_LOGOUT_ON_GET = True
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY =  env('SOCIAL_AUTH_GOOGLE_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =  env('SOCIAL_AUTH_GOOGLE_SECRET')
+
+LOGIN_REDIRECT_URL = '/hosters/main/'
