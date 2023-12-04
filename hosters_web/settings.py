@@ -14,8 +14,8 @@ from pathlib import Path
 import os
 import environ
 from pathlib import Path
-
-
+import warnings
+warnings.filterwarnings('ignore', message="MySQL does not support unique constraints with conditions.")
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -108,10 +108,18 @@ WSGI_APPLICATION = "hosters_web.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DB_NAME'),  # 데이터베이스 이름
+        'USER': env('DB_USER'),  # MySQL 사용자 이름
+        'PASSWORD': env('DB_PASSWORD'),  # MySQL 비밀번호
+        'HOST': env('DB_HOST'),  # MySQL 호스트
+        'PORT': env('DB_PORT'),  # MySQL 포트
+        'OPTIONS': {
+            'charset': 'utf8mb4',  # 문자 인코딩 설정
+        },
     }
 }
+
 
 
 # Password validation
