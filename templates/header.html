@@ -1,91 +1,107 @@
 <style>
-    .title {
-        margin-left: 5px;
-        margin-right: 5px;
-        width: 100px;
+    .top {
+        padding-left: 25px;
+        padding-right: 25px;
+        margin: auto;
+        width: 550px;
         height: 100%;
-        font-size: 22px;
-        font-family: Caveat;
-        font-weight: 700;
-        word-wrap: break-word;
+        overflow: auto;
+        background-color: rgb(255, 255, 255, 0.6);
+        backdrop-filter: blur(20px);
+        border-radius: 30px;
+        box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.1);
     }
-    .title:hover {
+    .bar {
+        float: left;
+        margin: auto;
+        width: 220px;
+        height: 100%;
+    }
+    .bar a {
+        width: 50%;
+        padding: 27px 0px;
+        float: left;
+        text-decoration: none;
+        text-align: center;
+        color: black;
+        font-size: 16px;
+        font-family: "ADLaM Display";
+        font-weight: 400;
+        word-wrap: break-word;
+        cursor: pointer;
+    }
+    .bar a:hover {
+        background: linear-gradient(
+            117deg,
+            rgba(255, 122.4, 0, 0.9) 0%,
+            rgba(255, 0, 107, 0.9) 100%
+        );
+        box-shadow: 0px 5px 15px rgba(255, 0, 107, 0.3);
+        color: white;
+    }
+    .bar a:active {
         opacity: 0.7;
     }
-    .title:active {
+    .bar a:focus {
+        background: linear-gradient(
+            117deg,
+            rgba(255, 122.4, 0, 0.9) 0%,
+            rgba(255, 0, 107, 0.9) 100%
+        );
+        box-shadow: 0px 5px 15px rgba(255, 0, 107, 0.3);
+        color: white;
+    }
+    .bar a:visited {
+        background-color: rgb(255, 255, 255, 0);
+        color: black;
+    }
+
+    .title {
+        float: left;
+        margin: auto;
+        width: 110px;
+        height: 100%;
+    }
+    .title a {
+        width: 100%;
+        padding: 22px 0px;
+        float: left;
+        background-color: rgb(255, 255, 255, 0);
+        text-align: center;
+        text-decoration: none;
+        font-size: 22px;
+        font-family: "ADLaM Display";
+        font-weight: 400;
+        word-wrap: break-word;
+        cursor: pointer;
+    }
+    .title a:hover {
+        opacity: 0.7;
+    }
+    .title a:active {
         opacity: 0.5;
     }
-    .title span {
+    .title a span {
         background: linear-gradient(
             180deg,
-            rgba(255, 122.4, 0, 0.9) 0%,
+            rgba(241, 194, 150, 0.9) 0%,
             rgba(255, 0, 107, 0.9) 100%
         );
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-
-    .bar {
-        margin: auto;
-        background-color: rgb(255, 255, 255, 0.6);
-        width: 600px;
-        height: 70px;
-        backdrop-filter: blur(20px);
-        border-radius: 30px;
-        text-align: center;
-        box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.1);
-    }
-    .menu {
-        margin-left: 5px;
-        margin-right: 5px;
-        width: 100px;
-        height: 100%;
-        background-color: rgb(255, 255, 255, 0);
-        border: none;
-        text-align: center;
-        color: black;
-        font-size: 16px;
-        font-family: ADLaMDisplay-Regular;
-        font-weight: 700;
-        word-wrap: break-word;
-        cursor: pointer;
-    }
-    .menu:hover {
-        background: linear-gradient(
-            117deg,
-            rgba(255, 122.4, 0, 0.9) 0%,
-            rgba(255, 0, 107, 0.9) 100%
-        );
-        box-shadow: 0px 5px 15px rgba(255, 0, 107, 0.3);
-        color: white;
-    }
-    .menu:active {
-        opacity: 0.7;
-    }
-    .menu:focus {
-        background: linear-gradient(
-            117deg,
-            rgba(255, 122.4, 0, 0.9) 0%,
-            rgba(255, 0, 107, 0.9) 100%
-        );
-        box-shadow: 0px 5px 15px rgba(255, 0, 107, 0.3);
-        color: white;
-    }
-    .menu:visited {
-        background-color: rgb(255, 255, 255, 0);
-        color: black;
-    }
 </style>
+<div class="top">
+    <div class="bar">
+        <a href="/hosters/main/">main</a>
+        <a href="/hosters/login/">login</a>
+    </div>
+    <div class="title">
+        <a href="/hosters/main/"><span>Hosters</span></a>
+    </div>
+    <div class="bar">
+        <a href="/hosters/join/">join</a>
 
-<div class="bar">
-    <div>
-        <a href="/hosters/main/" class="menu">main</button>
-        <a href="/hosters/login/" class="menu">login</button>
-
-        <hi class="title"><span>Hosters</span></hi>
-
-        <button href="/hosters/join/" class="menu">join</button>
-
-        <button href="/hosters/mypage/" class="menu">my page</button>
+        <a href="/hosters/mypage/">my page</a>
     </div>
 </div>
