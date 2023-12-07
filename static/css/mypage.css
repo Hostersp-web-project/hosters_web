@@ -2,13 +2,27 @@ body {
     background: #f9f9f9;
 }
 .white {
-    margin: auto;
+    overflow: auto;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
     width: 900px;
     height: 600px;
     background-color: white;
     border-radius: 30px;
+    text-align: center;
 }
 .account {
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    font-size: 22px;
+    font-family: "ADLaM Display";
+    font-weight: 400;
+    width: 700px;
+    height: 300px;
 }
 .dist-title {
     text-align: center;
