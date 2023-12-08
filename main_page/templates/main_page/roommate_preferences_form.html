@@ -1,0 +1,13 @@
+<!-- Inside your roommate_preferences_form.html template -->
+<form method="post">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <!-- Display user ID -->
+    <p>User ID: {{ user_id }}</p>
+
+    <!-- Include the rest of your form fields here -->
+    {{ form.as_p }}
+
+    <button type="submit">Submit</button>
+</form>

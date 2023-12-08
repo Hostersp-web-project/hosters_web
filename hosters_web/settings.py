@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "main_page",
     'django.contrib.sites',
-    'surveys',
+    'surveys_app',
 
 
     'allauth',
@@ -194,7 +194,7 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/hosters/main/'
 # 로그아웃 버튼 클릭 시 자동 로그아웃
 ACCOUNT_LOGOUT_ON_GET = True
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY =  env('SOCIAL_AUTH_GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY  =  env('SOCIAL_AUTH_GOOGLE_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =  env('SOCIAL_AUTH_GOOGLE_SECRET')
 
 LOGIN_REDIRECT_URL = '/hosters/main/'

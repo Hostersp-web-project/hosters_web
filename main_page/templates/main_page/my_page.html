@@ -2,30 +2,7 @@
 {% load static %}
 
 {% block content %}
-    <div class="survey-container">
-        {% if user.is_authenticated %}
-            <form id="survey-form" method="post" action="{% url 'surveys:mypage_with_survey' %}">
-                {% csrf_token %}
-                <!-- 사용자 ID를 자동으로 채워넣기 -->
-                <input type="hidden" name="user_id" id="user_id" value="{{ user.id }}">
+<!-- Basic structure of survey.html -->
 
-                <div class="question">
-                    <p>1. 추가된 문항입니다. 동의하십니까?</p>
-                    <div class="radio-group">
-                        <label><input type="radio" name="mbti_agree1" value="agree"> 동의</label>
-                        <label><input type="radio" name="mbti_agree1" value="disagree"> 비동의</label>
-                        <label><input type="radio" name="mbti_agree1" value="neutral"> 중립</label>
-                        <label><input type="radio" name="mbti_agree1" value="not-applicable"> 해당 없음</label>
-                        <label><input type="radio" name="mbti_agree1" value="other"> 기타</label>
-                    </div>
-                </div>
-
-                <div class="save-button">
-                    <button type="submit">Save</button>
-                </div>
-            </form>
-        {% else %}
-            <p>Please <a href="/hosters/login/">login</a> to access the survey.</p>
-        {% endif %}
-    </div>
 {% endblock %}
+
