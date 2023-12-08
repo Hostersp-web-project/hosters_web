@@ -81,10 +81,9 @@
     opacity: 0.5;
 }
 .title a span {
-    background: linear-gradient(
-        180deg,
-        rgba(241, 194, 150, 0.9) 0%,
-        rgba(255, 0, 107, 0.9) 100%
+    background: -webkit-linear-gradient(
+        rgba(255, 122.4, 0.9),
+        rgba(255, 0, 107, 0.9)
     );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
