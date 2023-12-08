@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 class RoommatePreferences(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
     clean_bathroom_periodically = models.IntegerField()
     clean_dust_immediately = models.IntegerField()
     vacuum_once_a_day = models.IntegerField()

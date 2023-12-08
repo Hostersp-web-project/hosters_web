@@ -6,7 +6,10 @@
     <h1>login_page</h1>
 
     {% if user.is_authenticated %}
-        <p>Welcome, {{ user.id }}!</p>
+        <p>Welcome, {{ user.username }}!</p>
+        <p>User ID: {{ user.id }}</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Add other user attributes as needed -->
         <form action="{% url 'account_logout' %}" method="post">
             {% csrf_token %}
             <button type="submit">Logout</button>

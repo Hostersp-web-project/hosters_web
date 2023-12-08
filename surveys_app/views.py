@@ -34,23 +34,23 @@ from django.contrib.auth.decorators import login_required
 from .models import RoommatePreferences
 from .forms import RoommatePreferencesForm
 
-
-@login_required
-def create_roommate_preference(request):
-    # Pass the user's ID to the template
-    user_id = request.user.id
-
-    if request.method == 'POST':
-        form = RoommatePreferencesForm(request.POST)
-        if form.is_valid():
-            roommate_preference = form.save(commit=False)
-            roommate_preference.user = request.user  # Set the logged-in user
-            roommate_preference.save()
-            return redirect('some_success_url')
-    else:
-        form = RoommatePreferencesForm()
-
-    return render(request, 'roommate_preferences_form.html', {
-        'form': form,
-        'user_id': user_id  # Pass the user ID into the context for the template
-    })
+#
+# @login_required
+# def create_roommate_preference(request):
+#     # Pass the user's ID to the template
+#     user_id = request.user.id
+#
+#     if request.method == 'POST':
+#         form = RoommatePreferencesForm(request.POST)
+#         if form.is_valid():
+#             roommate_preference = form.save(commit=False)
+#             roommate_preference.user = request.user  # Set the logged-in user
+#             roommate_preference.save()
+#             return redirect('some_success_url')
+#     else:
+#         form = RoommatePreferencesForm()
+#
+#     return render(request, 'roommate_preferences_form.html', {
+#         'form': form,
+#         'user_id': user_id  # Pass the user ID into the context for the template
+#     })
