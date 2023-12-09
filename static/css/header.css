@@ -1,3 +1,21 @@
+.gmail {
+    position: absolute;
+    top: 0;
+    right: 2%;
+    margin: 30px 30px;
+    text-decoration: none;
+    text-align: right;
+    color: #400000;
+    font-size: 16px;
+    font-family: "Pretendard";
+    font-weight: 900;
+    word-wrap: break-word;
+    cursor: pointer;
+}
+.gmail:hover {
+    text-decoration: underline;
+}
+
 .top {
     position: fixed;
     z-index: 1;

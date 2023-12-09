@@ -1,28 +1,31 @@
 <link rel="stylesheet" href="../static/css/header.css" />
+<a class="gmail" href="/hosters/mypage/">{{ user.username }}님, 환영합니다</a>
 <div class="top">
-    <div class="bar">
-        <a href="/hosters/main/">Main</a>
-        <a href="/hosters/join/">Matched</a>
-    </div>
-    <div class="title">
-        <a href="/hosters/main/"><span>Hosters</span></a>
-    </div>
-    <div class="bar">
-        <a href="/hosters/mypage/">Myself</a>
+    <div class="navi">
+        <div class="bar">
+            <a href="/hosters/main/">Main</a>
+            <a href="/hosters/join/">Matched</a>
+        </div>
+        <div class="title">
+            <a href="/hosters/main/"><span>Hosters</span></a>
+        </div>
+        <div class="bar">
+            <a href="/hosters/mypage/">Myself</a>
 
-        <form
-            action="{% url 'account_logout' %}"
-            method="post"
-            style="
-                position: relative;
-                float: left;
-                width: 50%;
-                height: 100%;
-                margin: 0;
-            "
-        >
-            {% csrf_token %}
-            <button type="submit" id="out">Logout</button>
-        </form>
+            <form
+                action="{% url 'account_logout' %}"
+                method="post"
+                style="
+                    position: relative;
+                    float: left;
+                    width: 50%;
+                    height: 100%;
+                    margin: 0;
+                "
+            >
+                {% csrf_token %}
+                <button type="submit" id="out">Logout</button>
+            </form>
+        </div>
     </div>
 </div>

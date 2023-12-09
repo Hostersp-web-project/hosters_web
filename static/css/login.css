@@ -7,7 +7,7 @@ body {
     justify-content: center;
 }
 
-.box {
+.login_box {
     position: absolute;
     vertical-align: middle;
     width: 500px;
@@ -18,21 +18,21 @@ body {
     border-color: white;
     border-radius: 30px;
 }
-.box:hover > h1 {
+.login_box:hover > h1 {
     margin-top: 47px;
     padding-bottom: 3px;
     text-shadow: 0px 5px 15px rgb(0, 0, 0, 0.3);
     transition-property: margin-top, padding-bottom, text-shadow;
     transition-duration: 1.5s;
 }
-.box:hover > span {
+.login_box:hover > span {
     margin-top: -48px;
     transform: rotate(-377deg);
     text-shadow: -1px 5px 15px rgb(0, 0, 0, 0.3);
     transition-property: margin-top, transform, text-shadow;
     transition-duration: 1.5s;
 }
-.box h1 {
+.login_box h1 {
     margin-top: 50px;
     margin-bottom: 0;
     text-align: center;
@@ -41,7 +41,7 @@ body {
     font-weight: 400;
     color: white;
 }
-.box span {
+.login_box span {
     position: absolute;
     transform: rotate(-17deg);
     margin-top: -45px;

@@ -1,9 +1,146 @@
+<link rel="stylesheet" href="../../../static/css/survey.css" />
+<link rel="stylesheet" href="../../../static/css/mypage.css" />
 {% extends 'base.html' %} {% load static %} {% block content %}
-<body>
+<body style="background: #f7f7f7">
     {% if user.is_authenticated %} {% include 'header.html' %}
-    <p>Welcome, {{ user.username }}!</p>
-    <p>User ID: {{ user.id }}</p>
-    <p>이메일: {{ user.email }}</p>
+    <div class="white">
+        <div class="account">
+            <h1>Account</h1>
+            <div class="information">
+                <div class="category">
+                    <p>이메일</p>
+                    <p>이름</p>
+                    <p>대학</p>
+                </div>
+                <div class="value">
+                    <p>{{ user.email }}</p>
+                    <p>{{ user.username }}</p>
+                    <p>{{ user.University }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="checklist">
+            <span>취미</span>
+            <fieldset class="field">
+                <div>
+                    <input
+                        type="checkbox"
+                        id="sports"
+                        name="interest"
+                        value="sports"
+                    />
+                    <label for="sports">스포츠</label>
+                    <input
+                        type="checkbox"
+                        id="music"
+                        name="interest"
+                        value="music"
+                    />
+                    <label for="music">음악</label>
+                    <input
+                        type="checkbox"
+                        id="arts_crafts"
+                        name="interest"
+                        value="arts_crafts"
+                    />
+                    <label for="arts_crafts">예술</label>
+                    <input
+                        type="checkbox"
+                        id="reading"
+                        name="interest"
+                        value="reading"
+                    />
+                    <label for="reading">독서</label>
+                </div>
+                <div>
+                    <input
+                        type="checkbox"
+                        id="cooking"
+                        name="interest"
+                        value="cooking"
+                    />
+                    <label for="cooking">요리</label>
+                    <input
+                        type="checkbox"
+                        id="movies_tv"
+                        name="interest"
+                        value="movies_tv"
+                    />
+                    <label for="movies_tv">영상시청</label>
+                    <input
+                        type="checkbox"
+                        id="gaming"
+                        name="interest"
+                        value="gaming"
+                    />
+                    <label for="gaming">게임</label>
+                    <input
+                        type="checkbox"
+                        id="traveling"
+                        name="interest"
+                        value="traveling"
+                    />
+                    <label for="traveling">여행</label>
+                </div>
+                <div>
+                    <input
+                        type="checkbox"
+                        id="language_learning"
+                        name="interest"
+                        value="language_learning"
+                    />
+                    <label for="language_learning">언어학습</label>
+                    <input
+                        type="checkbox"
+                        id="outdoor_activities"
+                        name="interest"
+                        value="outdoor_activities"
+                    />
+                    <label for="outdoor_activities">아웃도어</label>
+                    <input
+                        type="checkbox"
+                        id="fitness"
+                        name="interest"
+                        value="fitness"
+                    />
+                    <label for="fitness">피트니스</label>
+                    <input
+                        type="checkbox"
+                        id="technology"
+                        name="interest"
+                        value="technology"
+                    />
+                    <label for="technology">기술</label>
+                </div>
+                <div>
+                    <input
+                        type="checkbox"
+                        id="social_activities"
+                        name="interest"
+                        value="social_activities"
+                    />
+                    <label for="social_activities">사회활동</label>
+                    <input
+                        type="checkbox"
+                        id="meditation"
+                        name="interest"
+                        value="meditation"
+                    />
+                    <label for="meditation">명상</label>
+                    <input
+                        type="checkbox"
+                        id="pet_care"
+                        name="interest"
+                        value="pet_care"
+                    />
+                    <label for="pet_care">애완동물</label>
+                </div>
+                <div></div>
+                <div></div>
+            </fieldset>
+        </div>
+    </div>
+    <!-- Basic structure of survey.html -->
 
     {% include 'footer.html' %} {% else %}
     <meta
@@ -12,6 +149,5 @@
     />
     {% endif %}
 </body>
-<!-- Basic structure of survey.html -->
 
 {% endblock %}
