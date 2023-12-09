@@ -1,9 +1,6 @@
 from django import forms
 from .models import RoommatePreferences
 
-from django import forms
-from .models import RoommatePreferences
-
 class RoommatePreferencesForm(forms.ModelForm):
     class Meta:
         exclude = ['user']
