@@ -3,9 +3,9 @@
     {% if user.is_authenticated %} {% include 'header.html' %}
     <p>Welcome, {{ user.username }}!</p>
     <p>User ID: {{ user.id }}</p>
-    <p>Email: {{ user.email }}</p>
+    <p>이메일: {{ user.email }}</p>
 
-    {% include 'survey.html' %} {% include 'footer.html' %} {% else %}
+    {% include 'footer.html' %} {% else %}
     <meta
         http-equiv="Refresh"
         content="0; url='http://127.0.0.1:8000/hosters/login/'"

@@ -8,7 +8,13 @@
     />
     {% else %}
     <div class="box">
-        <h1>Hosters</h1>
+        <h1 id="title1">Hosters</h1>
+        <span id="title2">University</span>
+        <div class="slo">
+            <h2>기숙사, 자취, 등..</h2>
+            <p>대학교 공동 생활을 위한</p>
+            <h2>최고의 룸메이트 찾기 서비스</h2>
+        </div>
         <form
             id="gform"
             action="{% provider_login_url 'google' %}"
@@ -21,7 +27,7 @@
                     class="gimg"
                     alt="Google"
                 />
-                구글로 로그인
+                구글 계정으로 시작하기
             </button>
         </form>
     </div>
