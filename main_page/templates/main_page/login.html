@@ -15,7 +15,14 @@
             method="post"
         >
             {% csrf_token %}
-            <button class="gbtn"><span>구글로 로그인</span></button>
+            <button class="gbtn">
+                <img
+                    src="../../../static/imgs/googleIcon.png"
+                    class="gimg"
+                    alt="Google"
+                />
+                구글로 로그인
+            </button>
         </form>
     </div>
     {% endif %}
