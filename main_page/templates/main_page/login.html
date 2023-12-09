@@ -1,23 +1,18 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load socialaccount %}
-
+{% extends 'base.html' %} {% load static %} {% load socialaccount %}
+<link rel="stylesheet" href="../../../static/css/login.css" />
 {% block content %}
+<body>
     <h1>login_page</h1>
-
     {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}!</p>
-        <p>User ID: {{ user.id }}</p>
-        <p>Email: {{ user.email }}</p>
-        <!-- Add other user attributes as needed -->
-        <form action="{% url 'account_logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
+    <meta
+        http-equiv="Refresh"
+        content="3; url='http://127.0.0.1:8000/hosters/main/'"
+    />
     {% else %}
-        <form action="{% provider_login_url 'google' %}" method='post'>
-            {% csrf_token %}
-            <button>Google Login</button>
-        </form>
+    <form action="{% provider_login_url 'google' %}" method="post">
+        {% csrf_token %}
+        <button>Google Login</button>
+    </form>
     {% endif %}
+</body>
 {% endblock %}

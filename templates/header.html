@@ -8,7 +8,21 @@
         <a href="/hosters/main/"><span>Hosters</span></a>
     </div>
     <div class="bar">
-        <a href="/hosters/survey/">Myself</a>
-        <a href="/hosters/login/">Logout</a>
+        <a href="/hosters/mypage/">Myself</a>
+
+        <form
+            action="{% url 'account_logout' %}"
+            method="post"
+            style="
+                position: relative;
+                float: left;
+                width: 50%;
+                height: 100%;
+                margin: 0;
+            "
+        >
+            {% csrf_token %}
+            <button type="submit" id="out">Logout</button>
+        </form>
     </div>
 </div>

@@ -1,8 +1,11 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<body>
+    <p>Welcome, {{ user.username }}!</p>
+    <p>User ID: {{ user.id }}</p>
+    <p>Email: {{ user.email }}</p>
 
-{% block content %}
+    {% include 'survey.html' %}
+</body>
 <!-- Basic structure of survey.html -->
 
 {% endblock %}
-
