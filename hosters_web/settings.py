@@ -33,7 +33,7 @@ environ.Env.read_env(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 SECRET_KEY = env('SECRET_KEY')
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.localhost','175.45.205.147']
 
 
 
