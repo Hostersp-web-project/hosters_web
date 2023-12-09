@@ -1,0 +1,129 @@
+body {
+    background: radial-gradient(#ffacac 41%, #ffe9e9 100%);
+}
+:root {
+    --card-offset: 50px;
+}
+.main_layout {
+    overflow: auto;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1200px;
+    height: 740px;
+}
+.layout {
+    vertical-align: top;
+    display: inline-block;
+    margin: 20px;
+    width: 250px;
+    height: 700px;
+}
+.main_side {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffffb2;
+    backdrop-filter: blur(20px);
+    border-radius: 30px;
+    box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.1);
+}
+.main_side:hover {
+    box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.3);
+}
+
+.card_layout {
+    vertical-align: top;
+    display: inline-block;
+    margin: 20px 0px;
+    border-radius: 31px;
+    width: 600px;
+    height: 700px;
+}
+.card_layout:hover {
+    box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.3);
+}
+
+#card1 {
+    --index: 0;
+}
+#card2 {
+    --index: 1;
+}
+#card3 {
+    --index: 2;
+}
+#card4 {
+    --index: 3;
+}
+#card5 {
+    --index: 4;
+}
+#card6 {
+    --index: 5;
+}
+#card7 {
+    --index: 6;
+}
+#card8 {
+    --index: 7;
+}
+#card9 {
+    --index: 8;
+}
+.cards {
+    position: absolute;
+    margin-top: calc(var(--index) * 50px);
+    width: 600px;
+    height: 300px;
+    border-radius: 30px;
+    box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.1);
+}
+.cards div {
+    position: absolute;
+    width: 600px;
+    height: 300px;
+}
+.red_color {
+    background-color: red;
+    border-radius: 30px;
+    opacity: 100%;
+}
+.white_color {
+    background-color: white;
+    border-radius: 30px;
+    opacity: calc(60% + (var(--index) * 5%));
+}
+.white_color h1 {
+    display: inline-block;
+    padding-right: 50px;
+    margin: 0px;
+    position: relative;
+    top: 20%;
+    left: 5%;
+    text-emphasis: left;
+    background: -webkit-linear-gradient(
+        rgba(255, 122.4, 0, 0.9),
+        rgba(255, 0, 107, 0.9)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -40px;
+    font-size: 120px;
+    font-family: "Goudy Stout", sans-serif;
+    font-weight: 400;
+}
+.top_side {
+    margin: auto;
+    padding-top: 20px;
+    width: 100%;
+    height: 50px;
+    text-align: center;
+}
+.top_side span {
+    display: inline-block;
+    color: #400000;
+    font-size: 23px;
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    word-wrap: break-word;
+}

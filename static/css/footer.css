@@ -1,0 +1,14 @@
+.foot {
+    text-align: center;
+    margin-top: 2rem;
+    width: 100%;
+    height: 50px;
+}
+
+.hosters_logo {
+    font-family: "ADLaM Display";
+    margin-top: 1rem;
+}
+.hosters_footer_button {
+    font-size: 0.6rem;
+}
