@@ -101,7 +101,9 @@
     width: 100%;
     height: 40px;
 }
-.list div .survey {
+.list div input {
+}
+.survey {
     margin: auto;
     width: 900px;
     text-align: center;
@@ -109,4 +111,9 @@
 .question {
     font-size: 20px;
     font-weight: bold;
+}
+.save {
+    position: fixed;
+    margin: auto;
+    bottom: 30px;
 }

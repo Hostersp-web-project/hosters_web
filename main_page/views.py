@@ -62,10 +62,8 @@ def survey_view(request):
 
             # DataFrame 변환
             df1 = pd.read_sql(sql, conn)
-            print(df1)
             #df2 = pd.DataFrame.from_records(up)
             df1 = df1.fillna(0).loc[0]
-            print(df1)
                         
             # HAIR_1 변수를 사용하여 N_H1 정의
             HAIR_1 = ["clean_bathroom_periodically",
@@ -117,9 +115,12 @@ def survey_view(request):
             
             sqlcheck = 'SELECT user_id FROM UserScore'
             check = pd.read_sql(sqlcheck, conn)
+            print(set(check["user_id"]))
+            print(user_id)
             curs = conn.cursor()
-            if user_id not in check :
+            if user_id not in set(check["user_id"]) :
                 update = 'INSERT INTO UserScore VALUES (%s, %s, %s, %s, %s, %s)'
+                curs.execute(update, (user_id, HAIR, HEAD, HEART, HAND, res3(HAIR, HEART, HAND)))
             else:
                 update = "UPDATE UserScore SET hair_score = %s, head_score = %s, heart_score = %s, hand_score = %s, result = %s WHERE user_id = %s;"
                 curs.execute(update, (HAIR, HEAD, HEART, HAND, res3(HAIR, HEART, HAND), user_id))
@@ -128,6 +129,7 @@ def survey_view(request):
             #curs.execute(update, (HAIR, HEAD, HEART, HAND, res3(HAIR, HEART, HAND), user_id))
             conn.commit()
             curs.close()
+            conn.close()
 
     else:
         roommate_form = RoommatePreferencesForm(instance=roommate_preferences)
