@@ -3,11 +3,4 @@
 {% extends 'base.html' %} {% load static %}
 
 <!-- survey_form.html -->
-{% block content %}
-<div>
-    <form method="post">
-        {% csrf_token %} {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-</div>
-{% endblock %}
+{% block content %} {{ form.as_p }} {% endblock %}
