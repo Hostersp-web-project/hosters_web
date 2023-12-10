@@ -42,12 +42,10 @@ def survey_view(request):
 
     # 양식이 제출된 경우
     if request.method == 'POST':
-        sports = request.POST.getlist('interests')
         form = RoommatePreferencesForm(request.POST, instance=preferences)
         if form.is_valid():
             form.save()
             # 양식이 성공적으로 제출된 경우 리디렉션 또는 다른 작업을 수행합니다.
     else:
-        form = RoommatePreferencesForm(instance=preferences)
-
-    return render(request, 'main_page/my_page.html', {'form': form})
+        roomform = RoommatePreferencesForm(instance=preferences)
+    return render(request, 'main_page/my_page.html', {'form': roomform})
