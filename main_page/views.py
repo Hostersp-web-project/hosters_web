@@ -35,7 +35,8 @@ from surveys_app.models import RoommatePreferences
 from surveys_app.forms import RoommatePreferencesForm
 from checklist_app.models import UserPreferences
 from checklist_app.forms import PositiveCheckListForm
-
+from User_app.forms import UserProfileForm
+from User_app.models import UserProfile
 def survey_view(request):
     if not request.user.is_authenticated:
         return redirect('main_page/login.html')  # 로그인 URL로 리다이렉트
@@ -46,13 +47,17 @@ def survey_view(request):
     
     # 새로운 UserPreferences 모델 인스턴스를 가져오거나 생성합니다.
     user_preferences, created_up = UserPreferences.objects.get_or_create(member_id=request.user)
+    in_preferences, created_in = UserProfile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
         roommate_form = RoommatePreferencesForm(request.POST, instance=roommate_preferences)
         checklist_form = PositiveCheckListForm(request.POST, instance=user_preferences)
-        if roommate_form.is_valid() and checklist_form.is_valid():
+        user_form = UserProfileForm(request.POST, instance=in_preferences)
+
+        if roommate_form.is_valid() and checklist_form.is_valid()and user_form.is_valid():
             roommate_form.save()
             checklist_form.save()
+            user_form.save()
 
             sql = 'SELECT * FROM roommate_preferences WHERE user_id = '+ str(user_id)
 
@@ -128,10 +133,12 @@ def survey_view(request):
     else:
         roommate_form = RoommatePreferencesForm(instance=roommate_preferences)
         checklist_form = PositiveCheckListForm(instance=user_preferences)
+        user_form = UserProfileForm(instance=in_preferences)
 
     return render(request, 'main_page/my_page.html', {
         'roommate_form': roommate_form,
-        'checklist_form': checklist_form
+        'checklist_form': checklist_form,
+        'user_form': user_form
     })
 
 
