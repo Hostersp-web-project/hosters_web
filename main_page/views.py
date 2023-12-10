@@ -55,7 +55,7 @@ def survey_view(request):
         roommate_form = RoommatePreferencesForm(instance=roommate_preferences)
         checklist_form = PositiveCheckListForm(instance=user_preferences)
 
-    return render(request, 'main_page/survey.html', {
+    return render(request, 'main_page/my_page.html', {
         'roommate_form': roommate_form,
         'checklist_form': checklist_form
     })
