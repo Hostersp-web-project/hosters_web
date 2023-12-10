@@ -23,13 +23,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="checklist">
-                    <h1 class="mycate">Checklists</h1>
-                    {{ checklist_form.as_p }}
-                </div>
             </div>
-            <div class="survey">{{ roommate_form.as_p }}</div>
+            {{ user_form.as_p }} {{ checklist_form.as_p }}
         </div>
+        {{ roommate_form.as_p }}
         <button type="submit">Submit</button>
     </form>
     <!-- Basic structure of survey.html -->
