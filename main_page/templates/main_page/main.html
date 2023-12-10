@@ -8,14 +8,14 @@
 >
     {% if user.is_authenticated %} {% include 'header.html' %}
     <div class="main_layout">
-        <div class="layout">
-            <div class="main_side" style="height: 360px">
+        <div class="side_flex">
+            <div class="main_side" style="height: 55%">
                 <div class="top_side">
                     <span>Recommendation</span>
                 </div>
                 <div class="list"></div>
             </div>
-            <div class="main_side" style="margin-top: 20px; height: 320px">
+            <div class="main_side" style="height: 45%">
                 <div class="top_side">
                     <span>Notifications</span>
                 </div>
@@ -78,11 +78,9 @@
                 </div>
             </div>
         </div>
-        <div class="layout">
-            <div class="main_side">
-                <div class="top_side">
-                    <span>Filters</span>
-                </div>
+        <div class="main_side">
+            <div class="top_side">
+                <span>Filters</span>
             </div>
         </div>
     </div>

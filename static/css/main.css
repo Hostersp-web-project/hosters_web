@@ -7,11 +7,14 @@
     margin-left: auto;
     margin-right: auto;
     width: 1180px;
-    height: 740px;
+    height: 85%;
 }
-.layout {
-    width: 250px;
-    height: 700px;
+.side_flex {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
 }
 .main_side {
     width: 100%;
@@ -26,9 +29,10 @@
 }
 
 .card_layout {
-    border-radius: 31px;
+    position: relative;
+    border-radius: 30px;
     width: 600px;
-    height: 700px;
+    height: 100%;
 }
 .card_layout:hover {
     box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.3);
@@ -63,23 +67,24 @@
 }
 .cards {
     position: absolute;
-    margin-top: calc(var(--index) * 50px);
+    top: calc(var(--index) * 7%);
     width: 600px;
-    height: 300px;
+    height: 44%;
     border-radius: 30px;
     box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.1);
 }
-.cards div {
-    position: absolute;
-    width: 600px;
-    height: 300px;
-}
 .red_color {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background-color: red;
     border-radius: 30px;
     opacity: 100%;
 }
 .white_color {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background-color: white;
     border-radius: 30px;
     opacity: calc(60% + (var(--index) * 5%));
