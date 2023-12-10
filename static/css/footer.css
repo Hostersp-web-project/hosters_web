@@ -11,4 +11,14 @@
 }
 .hosters_footer_button {
     font-size: 0.6rem;
+    cursor: pointer;
+    font-family: "Pretendard";
+    font-weight: 300;
+}
+.hosters_footer_button a {
+    color: black;
+    text-decoration: none;
+}
+.hosters_footer_button a:hover {
+    text-decoration: underline;
 }

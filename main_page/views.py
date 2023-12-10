@@ -42,6 +42,7 @@ def survey_view(request):
 
     # 양식이 제출된 경우
     if request.method == 'POST':
+        sports = request.POST.getlist('interests')
         form = RoommatePreferencesForm(request.POST, instance=preferences)
         if form.is_valid():
             form.save()
