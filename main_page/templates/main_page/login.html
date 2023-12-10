@@ -1,23 +1,36 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load socialaccount %}
-
-{% block content %}
-    <h1>login_page</h1>
-
-    {% if user.is_authenticated %}
-        <p>Welcome, {{ user.username }}!</p>
-        <p>User ID: {{ user.id }}</p>
-        <p>Email: {{ user.email }}</p>
-        <!-- Add other user attributes as needed -->
-        <form action="{% url 'account_logout' %}" method="post">
-            {% csrf_token %}
-            <button type="submit">Logout</button>
-        </form>
+<link rel="stylesheet" href="../../../static/css/login.css" />
+{% extends 'base.html' %} {% load static %} {% block content %}
+<body>
+    {% load socialaccount %} {% if user.is_authenticated %}
+    <meta
+        http-equiv="Refresh"
+        content="3; url='http://127.0.0.1:8000/hosters/main/'"
+    />
     {% else %}
-        <form action="{% provider_login_url 'google' %}" method='post'>
+    <div class="login_box">
+        <h1 id="title1">Hosters</h1>
+        <span id="title2">University</span>
+        <div class="slo">
+            <h2>기숙사, 자취, 등..</h2>
+            <p>대학교 공동 생활을 위한</p>
+            <h2>최고의 룸메이트 찾기 서비스</h2>
+        </div>
+        <form
+            id="gform"
+            action="{% provider_login_url 'google' %}"
+            method="post"
+        >
             {% csrf_token %}
-            <button>Google Login</button>
+            <button class="gbtn">
+                <img
+                    src="../../../static/imgs/googleIcon.png"
+                    class="gimg"
+                    alt="Google"
+                />
+                구글 계정으로 시작하기
+            </button>
         </form>
+    </div>
     {% endif %}
+</body>
 {% endblock %}

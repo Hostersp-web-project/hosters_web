@@ -1,0 +1,126 @@
+body {
+    background-image: url(../../static/imgs/bg.jpeg);
+    background-size: cover;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.login_box {
+    position: absolute;
+    vertical-align: middle;
+    width: 500px;
+    height: 450px;
+    background-color: rgba(64, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border: 5px;
+    border-color: white;
+    border-radius: 30px;
+}
+.login_box:hover > h1 {
+    margin-top: 47px;
+    padding-bottom: 3px;
+    text-shadow: 0px 5px 15px rgb(0, 0, 0, 0.3);
+    transition-property: margin-top, padding-bottom, text-shadow;
+    transition-duration: 1.5s;
+}
+.login_box:hover > span {
+    margin-top: -48px;
+    transform: rotate(-377deg);
+    text-shadow: -1px 5px 15px rgb(0, 0, 0, 0.3);
+    transition-property: margin-top, transform, text-shadow;
+    transition-duration: 1.5s;
+}
+.login_box h1 {
+    margin-top: 50px;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 50px;
+    font-family: "ADLaM Display";
+    font-weight: 400;
+    color: white;
+}
+.login_box span {
+    position: absolute;
+    transform: rotate(-17deg);
+    margin-top: -45px;
+    margin-left: 245px;
+    padding-right: 10px;
+    font-size: 40px;
+    font-family: "Caveat", cursive;
+    font-weight: 700;
+    background: -webkit-linear-gradient(
+        -90deg,
+        rgba(255, 122.4, 0, 1),
+        rgba(255, 0, 107, 1)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.slo {
+    width: 100%;
+    height: auto;
+    margin: 30px auto;
+}
+.slo h2 {
+    text-align: center;
+    font-size: 28px;
+    font-family: "Pretendard";
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: white;
+    margin: 0;
+}
+.slo p {
+    text-align: center;
+    font-size: 25px;
+    font-family: "Pretendard";
+    font-weight: 300;
+    letter-spacing: 2px;
+    color: white;
+    margin: 0;
+}
+#gform {
+    position: relative;
+    width: 80%;
+    height: 50px;
+    bottom: 0%;
+    margin: 60px auto;
+}
+.gbtn {
+    padding: 0%;
+    margin: auto;
+    text-align: left;
+    width: 100%;
+    height: 50px;
+    border: none;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    text-align: center;
+    font-size: 20px;
+    font-family: "Pretendard";
+    font-weight: 500;
+    color: #242424;
+    letter-spacing: 3px;
+}
+.gimg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 5px;
+    padding: 5px;
+    width: 40px;
+    width: 40px;
+    border-radius: 30px;
+    background-color: white;
+}
+.gbtn:hover {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.1);
+}
+.gbtn:active {
+    background-color: white;
+    box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.15);
+}

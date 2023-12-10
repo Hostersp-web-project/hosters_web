@@ -8,7 +8,7 @@ class RoommatePreferences(models.Model):
         (1, 'Agree'),
         (0, 'Neutral'),
         (-1, 'Disagree'),
-        (-2, 'Strongly Disagree'),
+        (-2, 'Strongly Disagree')
     ]
 
     clean_bathroom_periodically = models.IntegerField(choices=CLEANING_CHOICES,default=0)
