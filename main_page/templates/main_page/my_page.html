@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="../../../static/css/newsurvey.css" />
+<link rel="stylesheet" href="../../../static/css/survey.css" />
 <link rel="stylesheet" href="../../../static/css/mypage.css" />
 
 {% extends 'base.html' %} {% load static %} {% block content %}
@@ -6,25 +6,30 @@
     {% if user.is_authenticated %} {% include 'header.html' %}
     <form method="post">
         {% csrf_token %}
-        <div class="white">
-            <div class="account">
-                <h1>Account</h1>
-                <div class="information">
-                    <div class="category">
-                        <p>이메일</p>
-                        <p>이름</p>
-                        <p>대학</p>
-                    </div>
-                    <div class="value">
-                        <p>{{ user.email }}</p>
-                        <p>{{ user.username }}</p>
-                        <p>{{ user.University }}</p>
+        <div class="form_flex">
+            <div class="white">
+                <div class="account">
+                    <h1 class="mycate">Account</h1>
+                    <div class="information">
+                        <div class="category">
+                            <p>이메일</p>
+                            <p>이름</p>
+                            <p>대학</p>
+                        </div>
+                        <div class="value">
+                            <p>{{ user.email }}</p>
+                            <p>{{ user.last_name }}{{ user.first_name }}</p>
+                            <p>{{ user.University }}</p>
+                        </div>
                     </div>
                 </div>
-            </div>    
-            {{ checklist_form.as_p }}
+                <div class="checklist">
+                    <h1 class="mycate">Checklists</h1>
+                    {{ checklist_form.as_p }}
+                </div>
+            </div>
+            <div class="survey">{{ roommate_form.as_p }}</div>
         </div>
-        {{ roommate_form.as_p }}
         <button type="submit">Submit</button>
     </form>
     <!-- Basic structure of survey.html -->

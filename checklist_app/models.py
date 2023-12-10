@@ -5,7 +5,7 @@ from django.conf import settings
 class UserPreferences(models.Model):
         
     member = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
-    sports = models.BooleanField(default=False)
+    sports = models.BooleanField(default=True)
     music = models.BooleanField(default=False)
     arts_crafts = models.BooleanField(default=False)
     reading = models.BooleanField(default=False)
