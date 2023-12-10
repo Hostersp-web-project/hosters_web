@@ -29,23 +29,33 @@ def mypage(request):
 from django.shortcuts import render, redirect
 from surveys_app.models import RoommatePreferences
 from surveys_app.forms import RoommatePreferencesForm
+from checklist_app.models import UserPreferences
+from checklist_app.forms import PositiveCheckListForm
 
 def survey_view(request):
-    # 사용자가 로그인한지 확인합니다.
     if not request.user.is_authenticated:
-        # 사용자가 로그인하지 않은 경우를 처리합니다.
-        return redirect('main_page/login.html')  # 'login'을 실제 로그인 URL로 바꿉니다.
+        return redirect('main_page/login.html')  # 로그인 URL로 리다이렉트
 
-    # 사용자가 이미 설문 조사 기호를 가지고 있는지 확인합니다.
-    preferences, created = RoommatePreferences.objects.get_or_create(user=request.user)
+    # 기존 RoommatePreferences 모델 인스턴스를 가져오거나 생성합니다.
+    roommate_preferences, created_rp = RoommatePreferences.objects.get_or_create(user=request.user)
 
-    # 양식이 제출된 경우
+    # 새로운 UserPreferences 모델 인스턴스를 가져오거나 생성합니다.
+    user_preferences, created_up = UserPreferences.objects.get_or_create(member_id=request.user)
+
     if request.method == 'POST':
-        form = RoommatePreferencesForm(request.POST, instance=preferences)
-        if form.is_valid():
-            form.save()
-            # 양식이 성공적으로 제출된 경우 리디렉션 또는 다른 작업을 수행합니다.
-    else:
-        form = RoommatePreferencesForm(instance=preferences)
+        roommate_form = RoommatePreferencesForm(request.POST, instance=roommate_preferences)
+        checklist_form = PositiveCheckListForm(request.POST, instance=user_preferences)
 
-    return render(request, 'main_page/survey.html', {'form': form})
+        if roommate_form.is_valid() and checklist_form.is_valid():
+            roommate_form.save()
+            checklist_form.save()
+            
+
+    else:
+        roommate_form = RoommatePreferencesForm(instance=roommate_preferences)
+        checklist_form = PositiveCheckListForm(instance=user_preferences)
+
+    return render(request, 'main_page/survey.html', {
+        'roommate_form': roommate_form,
+        'checklist_form': checklist_form
+    })
