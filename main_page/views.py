@@ -31,11 +31,12 @@ from surveys_app.models import RoommatePreferences
 from surveys_app.forms import RoommatePreferencesForm
 
 def survey_view(request):
+    """""
     # 사용자가 로그인한지 확인합니다.
     if not request.user.is_authenticated:
         # 사용자가 로그인하지 않은 경우를 처리합니다.
         return redirect('main_page/login.html')  # 'login'을 실제 로그인 URL로 바꿉니다.
-
+    """
     # 사용자가 이미 설문 조사 기호를 가지고 있는지 확인합니다.
     preferences, created = RoommatePreferences.objects.get_or_create(user=request.user)
 
@@ -48,4 +49,4 @@ def survey_view(request):
     else:
         form = RoommatePreferencesForm(instance=preferences)
 
-    return render(request, 'main_page/survey.html', {'form': form})
+    return render(request, 'main_page/my_page.html', {'form': form})

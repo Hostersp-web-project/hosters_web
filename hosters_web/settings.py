@@ -87,7 +87,7 @@ ROOT_URLCONF = "hosters_web.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "DIRS": [os.path.join(BASE_DIR, "templates"), os.path.join(BASE_DIR, "main_page/templates/main_page")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -192,11 +192,9 @@ SITE_ID = 1
 ACCOUNT_DEFAULT_HTTP_PROTOCOL='http'
 LOGIN_REDIRECT_URL = '/hosters/main/'
 
-ACCOUNT_LOGOUT_REDIRECT_URL = '/hosters/main/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/hosters/login/'
 # 로그아웃 버튼 클릭 시 자동 로그아웃
 ACCOUNT_LOGOUT_ON_GET = True
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY  =  env('SOCIAL_AUTH_GOOGLE_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET =  env('SOCIAL_AUTH_GOOGLE_SECRET')
-
-LOGIN_REDIRECT_URL = '/hosters/main/'

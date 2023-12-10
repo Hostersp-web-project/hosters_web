@@ -1,5 +1,6 @@
-<link rel="stylesheet" href="../../../static/css/survey.css" />
+<link rel="stylesheet" href="../../../static/css/newsurvey.css" />
 <link rel="stylesheet" href="../../../static/css/mypage.css" />
+
 {% extends 'base.html' %} {% load static %} {% block content %}
 <body style="background: #f7f7f7">
     {% if user.is_authenticated %} {% include 'header.html' %}
@@ -141,8 +142,7 @@
         </div>
     </div>
     <!-- Basic structure of survey.html -->
-
-    {% include 'footer.html' %} {% else %}
+    {% include 'survey.html' %}{% include 'footer.html' %} {% else %}
     <meta
         http-equiv="Refresh"
         content="0; url='http://127.0.0.1:8000/hosters/login/'"

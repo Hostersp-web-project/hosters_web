@@ -1,0 +1,5 @@
+/* 라디오 버튼을 가로로 배치하고 간격을 주는 스타일 */
+input[type="radio"] {
+    display: inline-block;
+    margin-right: 10px;
+}
