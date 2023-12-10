@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'surveys_app',
     'checklist_app',
+    'User_app',
+    
 
 
     'allauth',

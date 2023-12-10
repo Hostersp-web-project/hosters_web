@@ -34,6 +34,11 @@ class RoommatePreferencesForm(forms.ModelForm):
             'Individual_Family_Member_Household_Chores_Responsibility': forms.RadioSelect(attrs={'class': 'family-member-responsibility'}),
             'share_household_chores': forms.RadioSelect(attrs={'class': 'share-chores'}),
             'Housework_Family_Roles_Over_Individual_Tasks': forms.RadioSelect(attrs={'class': 'family-roles'}),
+            'drinks_alcohol' : forms.RadioSelect(attrs={'class': 'drinks_alcohol'}),
+            'smokes_cigarettes' : forms.RadioSelect(attrs={'class': 'smokes_cigarettes'}),
+            'smokes_indoors' : forms.RadioSelect(attrs={'class': 'smokes_indoors'})
+    
+
         }
 
         # 다른 필드들을 포함하거나 원하는 필드를 지정합니다.

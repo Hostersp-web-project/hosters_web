@@ -39,6 +39,9 @@ class RoommatePreferences(models.Model):
     Individual_Family_Member_Household_Chores_Responsibility = models.IntegerField(choices=CLEANING_CHOICES, default=0)
     share_household_chores = models.IntegerField(choices=CLEANING_CHOICES, default=0)
     Housework_Family_Roles_Over_Individual_Tasks = models.IntegerField(choices=CLEANING_CHOICES, default=0)
+    drinks_alcohol = models.IntegerField(choices=CLEANING_CHOICES, default=0)
+    smokes_cigarettes = models.IntegerField(choices=CLEANING_CHOICES, default=0)
+    smokes_indoors = models.IntegerField(choices=CLEANING_CHOICES, default=0)
 
     class Meta:
         db_table = 'roommate_preferences'
