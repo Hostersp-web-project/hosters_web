@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.utils import timezone
 from django.shortcuts import render, redirect
 from surveys_app.forms import RoommatePreferencesForm
 from django.shortcuts import render
