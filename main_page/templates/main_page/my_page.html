@@ -9,7 +9,7 @@
         <div class="form_flex">
             <div class="white">
                 <div class="account">
-                    <h1 class="mycate">정보</h1>
+                    <h1 class="mycate">Information</h1>
                     <div class="information">
                         <div class="category">
                             <p>이름</p>
@@ -27,11 +27,14 @@
                     </div>
                 </div>
                 <div class="checklist">
-                    <h1 class="mycate">취미</h1>
+                    <h1 class="mycate">Hobby</h1>
                     <div class="list">{{ checklist_form.as_div }}</div>
                 </div>
             </div>
-            <div class="survey">{{ roommate_form.as_p }}</div>
+            <div class="survey">
+                <h1 class="mycate">Survey</h1>
+                {{ roommate_form.as_p }}
+            </div>
         </div>
         <button class="save" type="submit">Submit</button>
     </form>
