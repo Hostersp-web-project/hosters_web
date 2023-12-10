@@ -3,34 +3,31 @@ from django.conf import settings
 
 
 class UserPreferences(models.Model):
-    CLEANING_CHOICES = [
-        (1, 'Agree'),
-        (0, 'Neutral'),
-    ]
-
-    member_id = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
-    sports = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    music = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    arts_crafts = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    reading = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    cooking = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    movies_tv = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    gaming = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    traveling = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    language_learning = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    outdoor_activities = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    fitness = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    technology = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    social_activities = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    meditation = models.IntegerField(choices=CLEANING_CHOICES, default=0)
-    pet_care = models.IntegerField(choices=CLEANING_CHOICES, default=0)
+        
+    member = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
+    sports = models.BooleanField(default=False)
+    music = models.BooleanField(default=False)
+    arts_crafts = models.BooleanField(default=False)
+    reading = models.BooleanField(default=False)
+    cooking = models.BooleanField(default=False)
+    movies_tv = models.BooleanField(default=False)
+    gaming = models.BooleanField(default=False)
+    traveling = models.BooleanField(default=False)
+    language_learning = models.BooleanField(default=False)
+    outdoor_activities = models.BooleanField(default=False)
+    fitness = models.BooleanField(default=False)
+    technology = models.BooleanField(default=False)
+    social_activities = models.BooleanField(default=False)
+    meditation = models.BooleanField(default=False)
+    pet_care = models.BooleanField(default=False)
+    # ... 나머지 필드들
 
     # Add other fields as needed
 
     class Meta:
         db_table = 'Positive_Check_List'
 
-
+"""
 class User(models.Model):
     name = models.CharField(max_length=255)
     school = models.CharField(max_length=255)
@@ -38,3 +35,4 @@ class User(models.Model):
 
     def __str__(self):
         return self.name
+"""
