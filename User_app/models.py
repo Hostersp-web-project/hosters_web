@@ -15,7 +15,8 @@ class UserProfile(models.Model):
     wake_up_time = models.IntegerField()
     time_of_move_in = models.IntegerField()
     phone_number_1 = models.CharField(max_length=255)
-    phone_number_2 = models.CharField(max_length=255)
+    instagram = models.CharField(max_length=255)
+    kakaotalk = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name

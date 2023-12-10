@@ -1,4 +1,5 @@
 .form_flex {
+    margin: 100px auto;
     display: flex;
     flex-direction: column;
     width: 900px;
@@ -13,7 +14,6 @@
     display: flex;
     flex-direction: column;
     flex-basis: auto;
-    margin: 100px auto;
     position: relative;
     width: 900px;
     height: max-content;
@@ -27,22 +27,13 @@
     margin-right: auto;
     position: relative;
     width: 700px;
-    height: 300px;
-}
-.checklist {
-    position: relative;
-    top: 0;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-    width: 700px;
     height: min-content;
 }
 .mycate {
-    font-size: 30px;
-    font-family: "ADLaM Display";
-    font-weight: 400;
+    font-size: 27px;
+    font-family: "Pretendard";
+    font-weight: 700;
+    color: #400000;
     margin: 0 0 20px;
 }
 .information {
@@ -64,14 +55,53 @@
     flex: 1;
 }
 .value p {
+    display: flex;
+    flex-direction: row;
     text-align: left;
-    font-size: 16px;
-    font-family: "Pretendard";
-    font-weight: 400;
     margin: 0 0 5px;
 }
-
-.survey {
+.value p label {
+    color: black;
+}
+.value p input {
+    padding: 1px 2px;
+    margin-left: 5px;
+    height: 24px;
+    font-size: 16px;
+    font-family: "Pretendard";
+    font-weight: 300;
+}
+.form-control-name {
+    width: 15%;
+}
+.form-control-time {
+    width: 10%;
+}
+.form-control-uni {
+    width: 25%;
+}
+.form-control-cont {
+    width: 25%;
+}
+.checklist {
+    position: relative;
+    margin: 30px auto;
+    position: relative;
+    width: 700px;
+    height: min-content;
+}
+.list {
+    width: 100%;
+    height: 200px;
+    display: grid;
+    grid-template-columns: 22% 22% 22% 22%;
+    gap: 4%;
+}
+.list div {
+    width: 100%;
+    height: 40px;
+}
+.list div .survey {
     margin: auto;
     width: 900px;
     text-align: center;
