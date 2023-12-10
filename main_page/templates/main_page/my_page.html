@@ -21,10 +21,12 @@
                         <p>{{ user.University }}</p>
                     </div>
                 </div>
-            </div>    
+            </div>
+            {{ user_form.as_p }}
             {{ checklist_form.as_p }}
         </div>
         {{ roommate_form.as_p }}
+
         <button type="submit">Submit</button>
     </form>
     <!-- Basic structure of survey.html -->
