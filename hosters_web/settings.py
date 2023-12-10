@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "main_page",
     'django.contrib.sites',
     'surveys_app',
+    'checklist_app',
 
 
     'allauth',
