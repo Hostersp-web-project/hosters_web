@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block content %}
+    <h1>login_page</h1>
+
+    {% if user.is_authenticated %}
+        <p>Welcome, {{ user.username }}!</p>
+        <p>User ID: {{ user.id }}</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Add other user attributes as needed -->
+        <form action="{% url 'account_logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% else %}
+        <form action="{% provider_login_url 'google' %}" method='post'>
+            {% csrf_token %}
+            <button>Google Login</button>
+        </form>
+    {% endif %}
+{% endblock %}
