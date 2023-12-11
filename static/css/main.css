@@ -1,10 +1,11 @@
 .main_layout {
     position: relative;
     display: grid;
+    top: 0px;
     grid-template-columns: 250px 600px 250px;
     column-gap: 20px;
-    padding: 20px;
-    margin: 40px auto;
+    padding: 20px 20px;
+    margin: 90px auto 0px;
     width: 1180px;
     height: 85%;
 }
@@ -87,7 +88,7 @@
     padding-right: 50px;
     margin: 0px;
     position: relative;
-    top: 20%;
+    top: 30%;
     left: 5%;
     text-emphasis: left;
     background: -webkit-linear-gradient(
