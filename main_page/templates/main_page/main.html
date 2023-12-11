@@ -18,15 +18,17 @@
             </div>
         </div>
         <div class="card_layout">
+            <p style="padding-bottom: 50px">이제 남은 추천이 없어요.</p>
+            <p>다시 돌아보려면 새로고침을 눌러주세요.</p>
             {% for card in cards %}
             <div class="cards" id="card{{ forloop.counter }}">
                 <div class="red_color"></div>
                 <div class="white_color">
                     <h1>{{ card }}%</h1>
                     <form class="btn_layout" method="get" action="#">
-                        <input type="submit" value="NO" name="BTN" />
-                        <input type="submit" value="MORE" name="BTN" />
-                        <input type="submit" value="YES" name="BTN" />
+                        <input type="submit" value="NO" name="NO" />
+                        <input type="submit" value="MORE" name="MORE" />
+                        <input type="submit" value="YES" name="YES" />
                     </form>
                 </div>
             </div>

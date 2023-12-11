@@ -11,20 +11,25 @@ cols = ["user_id", "score", "result", "name", "age", "uni", "major", "bedtime", 
 global ind
 global cards
 cards = pd.DataFrame(columns=cols)
-ind = 0
 
 def hosters_main(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')   # 로그인 URL로 리다이렉트
     global cards
-    global ind
-    print(cards)
-    if len(cards.index) <= 0:
+    ind = request.session.get('ind',0)
+    print(cards)    
+    print("NO: ", request.GET.get("NO"))
+    print("YES: ", request.GET.get("YES"))
+    if ind >= len(cards.index):
         ind = 0
+    
     if request.GET.get('NO') == 'NO':
         ind += 1
+        request.session['ind'] = ind
     if request.GET.get('YES') == 'YES':
         ind += 1
+        request.session['ind'] = ind
+
     user_id = request.user.id
 
     conn = pymysql.connect(host ='db-k04ce-kr.vpc-pub-cdb.ntruss.com', user = 'alsrl', password = 'hosters123!', db = 'hosters-test', charset = 'utf8')
@@ -122,14 +127,12 @@ def hosters_main(request):
     removed = {user_id}
 
     start_time = current_time - time_delta
-    while not len(cards.loc[ind:].index) >= 15 or start_time <= AU['last_login'].min():
+    while len(cards.index) <= 15 or start_time >= AU['last_login'].min():
         start_time = current_time - time_delta
         users_in_time_window = AU[(AU['last_login'] >= start_time) & (AU['last_login'] <= current_time)]
         score_list=[]
         user_queue = set()
-        print(set(cards["user_id"]))
         removed = removed.union(set(cards["user_id"]))
-        print(removed)
         # 큐에 사용자 추가
         for new_user in users_in_time_window['id']:
             if not (new_user in removed):
@@ -147,6 +150,7 @@ def hosters_main(request):
             res = pd.read_sql(sqlres+str(i[0])+";", conn)["result"]
             user = pd.read_sql(sqluser+str(i[0])+";", conn)
             cards.loc[len(cards.index)] = [i[0], i[1], res, user["name"], user["age"], user["University"], user["major"], user["bedtime"], user["wake_up_time"], user["time_of_move_in"]]
+            print(cards)
         # 큐가 가득 찼거나 데이터프레임의 시작 시간에 도달했으면 중단
         # 시간 범위 확장
         current_time -= time_delta
