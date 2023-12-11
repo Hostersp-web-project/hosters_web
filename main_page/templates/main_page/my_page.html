@@ -3,7 +3,7 @@
 
 {% extends 'base.html' %} {% load static %} {% block content %}
 <body style="background: #f7f7f7">
-    {% if user.is_authenticated %} {% include 'header.html' %}
+    {% include 'header.html' %}
     <form method="post">
         {% csrf_token %}
         <div class="form_flex">
@@ -39,12 +39,7 @@
         <button class="save" type="submit">Submit</button>
     </form>
     <!-- Basic structure of survey.html -->
-    {% include 'footer.html' %} {% else %}
-    <meta
-        http-equiv="Refresh"
-        content="0; url='http://127.0.0.1:8000/hosters/login/'"
-    />
-    {% endif %}
+    {% include 'footer.html' %}
 </body>
 
 {% endblock %}

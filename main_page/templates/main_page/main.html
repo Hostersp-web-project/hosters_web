@@ -6,7 +6,7 @@
         padding-top: 80px;
     "
 >
-    {% if user.is_authenticated %} {% include 'header.html' %}
+    {% include 'header.html' %}
     <div class="main_layout">
         <div class="side_flex">
             <div class="main_side" style="height: 55%">
@@ -84,11 +84,6 @@
             </div>
         </div>
     </div>
-    {% include 'footer.html' %} {% else %}
-    <meta
-        http-equiv="Refresh"
-        content="0; url='http://127.0.0.1:8000/hosters/login/'"
-    />
-    {% endif %}
+    {% include 'footer.html' %}
 </body>
 {% endblock %}
