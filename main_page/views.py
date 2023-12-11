@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from surveys_app.forms import RoommatePreferencesForm
 from django.shortcuts import render
 from datetime import datetime, timedelta
-from collections import deque
 import pymysql
 import numpy as np
 import pandas as pd
@@ -10,15 +9,17 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 cols = ["user_id", "score", "result", "name", "age", "uni", "major", "bedtime", "uptime", "movein"]
 global ind
-global match
+global cards
+cards = pd.DataFrame(columns=cols)
+ind = 0
+
 def hosters_main(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')   # 로그인 URL로 리다이렉트
-    global match
+    global cards
     global ind
-    match = pd.DataFrame(columns=cols)
-    print(match)
-    if len(match.index) <= 0:
+    print(cards)
+    if len(cards.index) <= 0:
         ind = 0
     if request.GET.get('NO') == 'NO':
         ind += 1
@@ -120,13 +121,14 @@ def hosters_main(request):
     
     removed = {user_id}
 
-    while not len(match.loc[ind:].index) >= 15 or start_time <= AU['last_login'].min():
+    start_time = current_time - time_delta
+    while not len(cards.loc[ind:].index) >= 15 or start_time <= AU['last_login'].min():
         start_time = current_time - time_delta
         users_in_time_window = AU[(AU['last_login'] >= start_time) & (AU['last_login'] <= current_time)]
         score_list=[]
         user_queue = set()
-        print(set(match["user_id"]))
-        removed = removed.union(set(match["user_id"]))
+        print(set(cards["user_id"]))
+        removed = removed.union(set(cards["user_id"]))
         print(removed)
         # 큐에 사용자 추가
         for new_user in users_in_time_window['id']:
@@ -144,14 +146,13 @@ def hosters_main(request):
             print(sqlres+str(i[0]))
             res = pd.read_sql(sqlres+str(i[0])+";", conn)["result"]
             user = pd.read_sql(sqluser+str(i[0])+";", conn)
-            match.loc[len(match.index)] = [i[0], i[1], res, user["name"], user["age"], user["University"], user["major"], user["bedtime"], user["wake_up_time"], user["time_of_move_in"]]
+            cards.loc[len(cards.index)] = [i[0], i[1], res, user["name"], user["age"], user["University"], user["major"], user["bedtime"], user["wake_up_time"], user["time_of_move_in"]]
         # 큐가 가득 찼거나 데이터프레임의 시작 시간에 도달했으면 중단
         # 시간 범위 확장
         current_time -= time_delta
     conn.close()
-    match["score"] = match["score"].round(1)
-    cards = match.loc[ind:ind+8].values.tolist()
-    scores = match.loc[ind:ind+8]["score"].tolist()
+    cards["score"] = cards["score"].round(1)
+    scores = cards.loc[ind:ind+8]["score"].tolist()
     return render(request, 'main_page/main.html', {"cards":scores})
 
 def login(request):
@@ -162,7 +163,7 @@ def login(request):
 def match(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')
-    return render(request, 'main_page/match.html')
+    return render(request, 'main_page/cards.html')
 def mypage(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')
