@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'surveys_app',
     'checklist_app',
     'User_app',
-    'profiles',
 
 
     'allauth',
