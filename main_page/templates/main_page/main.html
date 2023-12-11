@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="../../../static/css/main.css" />
 {% extends 'base.html' %} {%load static%} {% block content %}
-<body style="background: radial-gradient(#ffacac 41%, #ffe9e9 100%)">
+<body style="background: radial-gradient(#ffacac 41%, #ffe9e9 100%); top: 0px">
     {% include 'header.html' %}
     <div class="main_layout">
         <div class="side_flex">
@@ -18,60 +18,19 @@
             </div>
         </div>
         <div class="card_layout">
-            <div class="cards" id="card1">
+            {% for card in cards %}
+            <div class="cards" id="card{{ forloop.counter }}">
                 <div class="red_color"></div>
                 <div class="white_color">
-                    <h1>99%</h1>
+                    <h1>{{ card }}%</h1>
+                    <form class="btn_layout" method="get" action="#">
+                        <input type="submit" value="NO" name="BTN" />
+                        <input type="submit" value="MORE" name="BTN" />
+                        <input type="submit" value="YES" name="BTN" />
+                    </form>
                 </div>
             </div>
-            <div class="cards" id="card2">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>99%</h1>
-                </div>
-            </div>
-            <div class="cards" id="card3">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>99%</h1>
-                </div>
-            </div>
-            <div class="cards" id="card4">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>99%</h1>
-                </div>
-            </div>
-            <div class="cards" id="card5">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>99%</h1>
-                </div>
-            </div>
-            <div class="cards" id="card6">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>99%</h1>
-                </div>
-            </div>
-            <div class="cards" id="card7">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>99%</h1>
-                </div>
-            </div>
-            <div class="cards" id="card8">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>99%</h1>
-                </div>
-            </div>
-            <div class="cards" id="card9">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>99%</h1>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <div class="main_side">
             <div class="top_side">

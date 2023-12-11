@@ -1,6 +1,6 @@
 .foot {
     text-align: center;
-    margin: 0px auto;
+    margin: 0px;
     width: 100%;
     height: 50px;
 }
@@ -12,7 +12,10 @@
 .hosters_footer_button {
     font-size: 0.6rem;
     cursor: pointer;
-    font-family: "Pretendard";
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Pretendard Variable", Pretendard, Roboto, "Noto Sans KR", "Segoe UI",
+        "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", sans-serif;
     font-weight: 300;
 }
 .hosters_footer_button a {

@@ -3,10 +3,10 @@
     display: grid;
     grid-template-columns: 870px 250px;
     column-gap: 20px;
-    padding: 20px;
-    margin: 40px auto;
+    padding: 20px 20px;
+    margin: 90px auto 0px;
     width: 1180px;
-    height: 85%;
+    height: 80%;
 }
 .side_flex {
     display: flex;
@@ -42,13 +42,18 @@
     background-color: white;
     border-top-right-radius: 30px;
     border-top-left-radius: 30px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
     text-align: center;
 }
 .top_chat span {
     display: inline-block;
     color: #400000;
     font-size: 25px;
-    font-family: "Pretendard";
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Pretendard Variable", Pretendard, Roboto, "Noto Sans KR", "Segoe UI",
+        "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", sans-serif;
     font-weight: 700;
     word-wrap: break-word;
 }

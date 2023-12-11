@@ -29,5 +29,3 @@ class Account(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['email_address'], name='unique_email'),
         ]
-
-

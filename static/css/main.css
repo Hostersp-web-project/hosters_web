@@ -1,18 +1,17 @@
 .main_layout {
     position: relative;
     display: grid;
-    top: 0px;
-    grid-template-columns: 250px 600px 250px;
-    column-gap: 20px;
+    grid-template-columns: 250px 610px 250px;
+    column-gap: 15px;
     padding: 20px 20px;
     margin: 90px auto 0px;
     width: 1180px;
-    height: 85%;
+    height: 80%;
 }
 .side_flex {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     width: 100%;
     height: 100%;
 }
@@ -28,7 +27,7 @@
 .card_layout {
     position: relative;
     border-radius: 30px;
-    width: 600px;
+    width: 100%;
     height: 100%;
 }
 
@@ -62,7 +61,8 @@
 .cards {
     position: absolute;
     top: calc(var(--index) * 6%);
-    width: 600px;
+    z-index: var(--index);
+    width: 100%;
     height: 52%;
     border-radius: 30px;
     box-shadow: 0px 5px 15px rgb(0, 0, 0, 0.1);
@@ -101,6 +101,22 @@
     font-size: 120px;
     font-family: "Goudy Stout", sans-serif;
     font-weight: 400;
+}
+.btn_layout {
+    position: absolute;
+    display: grid;
+    margin: 10px;
+    width: 590;
+    height: 15%;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    bottom: 10px;
+}
+.btn_layout button {
+    height: 100%;
+    border: none;
+    background-color: black;
+    border-radius: 30px;
 }
 .top_side {
     margin: auto;
