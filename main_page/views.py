@@ -290,4 +290,24 @@ def res3(hair, heart, hand):
     return h + s + t
 
 
+'''def find_mutual_likes(request):
+    if not request.user.is_authenticated:
+        return redirect('hosters:login')
 
+    conn = pymysql.connect(host ='db-k04ce-kr.vpc-pub-cdb.ntruss.com', user = 'alsrl', password = 'hosters123!', db = 'hosters-test', charset = 'utf8')
+
+    sqlau = "SELECT * FROM auth_user"
+    Liked = pd.read_sql(sqlau, conn)
+    user_id = request.user.id
+    # 사용자가 '좋아요'를 누른 모든 사용자 찾기
+    liked_users = Like.objects.filter(liker=user_id).values_list('liked', flat=True)
+
+    # 상호적인 '좋아요'를 찾기
+    mutual_likes = []
+    for liked_user in liked_users:
+        if Like.objects.filter(liker=liked_user, liked=user).exists():
+            mutual_likes.append(liked_user)
+
+    return mutual_likes
+
+'''
