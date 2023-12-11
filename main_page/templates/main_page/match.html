@@ -1,0 +1,24 @@
+<link rel="stylesheet" href="../../../static/css/matched.css" />
+{% extends 'base.html' %} {%load static%} {% block content %}
+<body
+    style="
+        background: radial-gradient(#ffacac 41%, #ffe9e9 100%);
+        padding-top: 40px;
+    "
+>
+    {% include 'header.html' %}
+    <div class="main_layout">
+        <div class="chat_layout">
+            <div class="top_Chat">
+                <span>김죄송</span>
+            </div>
+        </div>
+        <div class="main_side">
+            <div class="top_side">
+                <span>Filters</span>
+            </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+</body>
+{% endblock %}

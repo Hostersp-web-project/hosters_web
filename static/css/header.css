@@ -5,7 +5,12 @@
     margin: 30px 30px;
     text-decoration: none;
     text-align: right;
-    color: #ff0000;
+    background: -webkit-linear-gradient(
+        rgba(255, 122.4, 0.9),
+        rgba(255, 0, 107, 0.9)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-size: 16px;
     font-family: "Pretendard";
     font-weight: 900;

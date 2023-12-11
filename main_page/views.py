@@ -32,9 +32,6 @@ def hosters_main(request):
 
     US = US.set_index('user_id')
     PC = PC.set_index('member_id')
-    print(US)
-    print(PC)
-    print(US.at[user_id, 'head_score'])
         
     # S 가중치 계산함수
     def S_weight(user_id):
@@ -107,7 +104,7 @@ def hosters_main(request):
         """
         current_time = datetime.now()
         time_delta = timedelta(hours=1)
-        print(time_delta)
+        
         res = deque()
         removed_user={user1_id}
 
@@ -116,17 +113,15 @@ def hosters_main(request):
             users_in_time_window = AU[(AU['last_login'] >= start_time) & (AU['last_login'] <= current_time)]
             score_list=[]
             user_queue = set()
-            print(users_in_time_window)
+            
             # 큐에 사용자 추가
             for new_user in users_in_time_window['id']:
-                print(new_user)
-                print(removed_user)
                 if not (new_user in removed_user):
                     user_queue.add(new_user)
-            print(user_queue)
+            
             for i in user_queue:
                 user2_id = i
-                print(user2_id)
+                
                 D = scoreCalc(user1_id, user2_id)
                 score_list.append((user2_id, D))
 
@@ -152,10 +147,10 @@ def login(request):
         return redirect('hosters:main')
     return render(request, 'main_page/login.html')
 
-def matched(request):
+def match(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')
-    return render(request, 'main_page/matched.html')
+    return render(request, 'main_page/match.html')
 def mypage(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')
