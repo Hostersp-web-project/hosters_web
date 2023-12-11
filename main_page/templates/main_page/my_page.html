@@ -2,14 +2,14 @@
 <link rel="stylesheet" href="../../../static/css/mypage.css" />
 
 {% extends 'base.html' %} {% load static %} {% block content %}
-<body style="background: #f7f7f7">
-    {% if user.is_authenticated %} {% include 'header.html' %}
+<body style="background: #f7f7f7; padding-bottom: 80px">
+    {% include 'header.html' %}
     <form method="post">
         {% csrf_token %}
         <div class="form_flex">
             <div class="white">
                 <div class="account">
-                    <h1 class="mycate">정보</h1>
+                    <h1 class="mycate">Information</h1>
                     <div class="information">
                         <div class="category">
                             <p>이름</p>
@@ -27,21 +27,19 @@
                     </div>
                 </div>
                 <div class="checklist">
-                    <h1 class="mycate">취미</h1>
+                    <h1 class="mycate">Hobby</h1>
                     <div class="list">{{ checklist_form.as_div }}</div>
                 </div>
             </div>
-            <div class="survey">{{ roommate_form.as_p }}</div>
+            <div class="survey">
+                <h1 class="mycate">Survey</h1>
+                {{ roommate_form.as_p }}
+            </div>
         </div>
-        <button type="submit">Submit</button>
+        <button class="save" type="submit">Submit</button>
     </form>
     <!-- Basic structure of survey.html -->
-    {% include 'footer.html' %} {% else %}
-    <meta
-        http-equiv="Refresh"
-        content="0; url='http://127.0.0.1:8000/hosters/login/'"
-    />
-    {% endif %}
+    {% include 'footer.html' %}
 </body>
 
 {% endblock %}

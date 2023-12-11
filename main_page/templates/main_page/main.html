@@ -1,12 +1,7 @@
 <link rel="stylesheet" href="../../../static/css/main.css" />
 {% extends 'base.html' %} {%load static%} {% block content %}
-<body
-    style="
-        background: radial-gradient(#ffacac 41%, #ffe9e9 100%);
-        padding-top: 80px;
-    "
->
-    {% if user.is_authenticated %} {% include 'header.html' %}
+<body style="background: radial-gradient(#ffacac 41%, #ffe9e9 100%)">
+    {% include 'header.html' %}
     <div class="main_layout">
         <div class="side_flex">
             <div class="main_side" style="height: 55%">
@@ -84,11 +79,6 @@
             </div>
         </div>
     </div>
-    {% include 'footer.html' %} {% else %}
-    <meta
-        http-equiv="Refresh"
-        content="0; url='http://127.0.0.1:8000/hosters/login/'"
-    />
-    {% endif %}
+    {% include 'footer.html' %}
 </body>
 {% endblock %}

@@ -5,7 +5,12 @@
     margin: 30px 30px;
     text-decoration: none;
     text-align: right;
-    color: #ff0000;
+    background: -webkit-linear-gradient(
+        rgba(255, 122.4, 0.9),
+        rgba(255, 0, 107, 0.9)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     font-size: 16px;
     font-family: "Pretendard";
     font-weight: 900;
@@ -16,14 +21,16 @@
     text-decoration: underline;
 }
 .name span {
-    color: #400000;
+    background: -webkit-linear-gradient(rgba(64, 0, 0, 1), rgba(64, 0, 0, 1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .top {
     position: fixed;
     z-index: 1;
     padding: 0px 25px;
-    top: 10px;
+    top: 20px;
     left: 0;
     right: 0;
     margin-left: auto;

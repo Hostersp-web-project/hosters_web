@@ -1,12 +1,7 @@
 <link rel="stylesheet" href="../../../static/css/login.css" />
 {% extends 'base.html' %} {% load static %} {% block content %}
 <body>
-    {% load socialaccount %} {% if user.is_authenticated %}
-    <meta
-        http-equiv="Refresh"
-        content="3; url='http://127.0.0.1:8000/hosters/main/'"
-    />
-    {% else %}
+    {% load socialaccount %}
     <div class="login_box">
         <h1 id="title1">Hosters</h1>
         <span id="title2">University</span>
@@ -31,6 +26,5 @@
             </button>
         </form>
     </div>
-    {% endif %}
 </body>
 {% endblock %}

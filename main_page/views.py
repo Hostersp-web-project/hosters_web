@@ -1,31 +1,159 @@
 from django.shortcuts import render, redirect
-from django.shortcuts import render, redirect
 from surveys_app.forms import RoommatePreferencesForm
 from django.shortcuts import render
+from datetime import datetime, timedelta
+from collections import deque
+import pymysql
 import numpy as np
 import pandas as pd
 from django.contrib.auth.decorators import login_required
-import pymysql
 # Create your views here.
-conn = pymysql.connect(host ='db-k04ce-kr.vpc-pub-cdb.ntruss.com', user = 'alsrl', password = 'hosters123!', db = 'hosters-test', charset = 'utf8')
 
 
 def hosters_main(request):
+    if not request.user.is_authenticated:
+        return redirect('hosters:login')   # 로그인 URL로 리다이렉트
+    user_id = request.user.id
+
+    conn = pymysql.connect(host ='db-k04ce-kr.vpc-pub-cdb.ntruss.com', user = 'alsrl', password = 'hosters123!', db = 'hosters-test', charset = 'utf8')
+
+    sqlau = "SELECT * FROM auth_user"
+    AU = pd.read_sql(sqlau, conn)
+    
+    sqlus = "SELECT * FROM UserScore"
+    US = pd.read_sql(sqlus, conn)
+    
+    sqlpc = "SELECT * FROM Positive_Check_List"
+    PC = pd.read_sql(sqlpc, conn)
+    
+    conn.close()
+    if (user_id not in set(PC['member_id'])) or (user_id not in set(US['user_id'])) :
+        return redirect('hosters:mypage')
+
+    US = US.set_index('user_id')
+    PC = PC.set_index('member_id')
+        
+    # S 가중치 계산함수
+    def S_weight(user_id):
+        X = US.at[user_id, 'head_score']*(20/100)
+        return X
+
+    def HAIR_Score(user1_id, user2_id):
+        # 인덱스를 사용하여 HAIR 값을 검색합니다.
+        user1_H1_score = US.at[user1_id, 'hair_score']
+        user2_H1_score = US.at[user2_id, 'hair_score']
+
+        # 기존의 계산을 그대로 사용합니다.
+        x = user1_H1_score - 50
+        y = user2_H1_score - 50
+        H1 = np.abs(x - y)
+
+        return H1
+
+    def HEART_Score(user1_id, user2_id):
+        user1_H1_score = US.at[user1_id, 'heart_score']
+        user2_H1_score = US.at[user2_id, 'heart_score']
+        x = user1_H1_score - 50
+        y = user2_H1_score - 50
+        H3 = np.abs(x-y)
+        return H3
+
+    def HAND_Score(user1_id, user2_id):
+        user1_H1_score = US.at[user1_id, 'hand_score']
+        user2_H1_score = US.at[user2_id, 'hand_score']
+        x = user1_H1_score - 50
+        y = user2_H1_score - 50
+        H4 = np.abs(x-y)
+        return H4
+
+    def P_C_L_S(user1_id, user2_id):
+        # 사용자 ID를 인덱스로 사용하여 두 사용자의 취미 데이터를 가져옵니다.
+        user1_hobbies = PC.loc[user1_id]
+        user2_hobbies = PC.loc[user2_id]
+
+        # 1 값을 가지는 취미들의 집합을 구합니다.
+        user1_hobbies_set = set(user1_hobbies[user1_hobbies == 1].index)
+        user2_hobbies_set = set(user2_hobbies[user2_hobbies == 1].index)
+
+        # 공통 취미활동 집합
+        common_hobbies = user1_hobbies_set.intersection(user2_hobbies_set)
+
+        # 합집합 취미활동 집합
+        all_hobbies = user1_hobbies_set.union(user2_hobbies_set)
+
+        # Jaccard 유사도 계산
+        if not all_hobbies:  # 합집합이 비어있는 경우
+            return 0
+        jaccard_similarity = len(common_hobbies) / len(all_hobbies)
+
+        return jaccard_similarity * 100  # 백분율로 반환
+
+
+        
+    def scoreCalc(user1_id, user2_id):
+        A = 300 - (HAIR_Score(user1_id, user2_id) + HEART_Score(user1_id, user2_id) + HAND_Score(user1_id, user2_id))
+        B = 75 + S_weight(user1_id)
+        C = A * (B / 300)
+        Rp = 100 - B
+        D = C + P_C_L_S(user1_id, user2_id) * (Rp / 100)
+        return D
+
+    def get_user_queue(user1_id, AU, max_users=15):
+        """
+        현재 시간을 기준으로 과거 방향으로 시간을 확장해가며 사용자를 찾아 큐를 초기화하는 함수
+        """
+        current_time = datetime.now()
+        time_delta = timedelta(hours=1)
+        
+        res = deque()
+        removed_user={user1_id}
+
+        while True:
+            start_time = current_time - time_delta
+            users_in_time_window = AU[(AU['last_login'] >= start_time) & (AU['last_login'] <= current_time)]
+            score_list=[]
+            user_queue = set()
+            
+            # 큐에 사용자 추가
+            for new_user in users_in_time_window['id']:
+                if not (new_user in removed_user):
+                    user_queue.add(new_user)
+            
+            for i in user_queue:
+                user2_id = i
+                
+                D = scoreCalc(user1_id, user2_id)
+                score_list.append((user2_id, D))
+
+            score_list.sort(key=lambda x: -x[1])
+
+            for i in score_list:
+                res.append(i)
+                removed_user.add(i[0])
+            # 큐가 가득 찼거나 데이터프레임의 시작 시간에 도달했으면 중단
+            if len(res) >= max_users or start_time <= AU['last_login'].min():
+                break
+
+            # 시간 범위 확장
+            current_time -= time_delta
+
+        return res
+    print(get_user_queue(user_id, AU))
+
     return render(request, 'main_page/main.html')
 
 def login(request):
-
+    if request.user.is_authenticated:
+        return redirect('hosters:main')
     return render(request, 'main_page/login.html')
 
-# @login_required
-# def login(request):
-#     # 현재 로그인한 사용자의 CustomUser 모델 인스턴스 가져오기
-#     current_user = request.user
-#     return render(request, 'main_page/login.html', {'current_user': current_user})
-
-def join(request):
-    return render(request, 'main_page/join.html')
+def match(request):
+    if not request.user.is_authenticated:
+        return redirect('hosters:login')
+    return render(request, 'main_page/match.html')
 def mypage(request):
+    if not request.user.is_authenticated:
+        return redirect('hosters:login')
     return render(request, 'main_page/my_page.html')
 
 
@@ -40,6 +168,8 @@ def survey_view(request):
     if not request.user.is_authenticated:
         return redirect('main_page/login.html')  # 로그인 URL로 리다이렉트
     user_id = request.user.id
+    
+    conn = pymysql.connect(host ='db-k04ce-kr.vpc-pub-cdb.ntruss.com', user = 'alsrl', password = 'hosters123!', db = 'hosters-test', charset = 'utf8')
 
     # 기존 RoommatePreferences 모델 인스턴스를 가져오거나 생성합니다.
     roommate_preferences, created_rp = RoommatePreferences.objects.get_or_create(user=request.user)
@@ -62,10 +192,8 @@ def survey_view(request):
 
             # DataFrame 변환
             df1 = pd.read_sql(sql, conn)
-            print(df1)
             #df2 = pd.DataFrame.from_records(up)
             df1 = df1.fillna(0).loc[0]
-            print(df1)
                         
             # HAIR_1 변수를 사용하여 N_H1 정의
             HAIR_1 = ["clean_bathroom_periodically",
@@ -117,9 +245,12 @@ def survey_view(request):
             
             sqlcheck = 'SELECT user_id FROM UserScore'
             check = pd.read_sql(sqlcheck, conn)
+            print(set(check["user_id"]))
+            print(user_id)
             curs = conn.cursor()
-            if user_id not in check :
+            if user_id not in set(check["user_id"]) :
                 update = 'INSERT INTO UserScore VALUES (%s, %s, %s, %s, %s, %s)'
+                curs.execute(update, (user_id, HAIR, HEAD, HEART, HAND, res3(HAIR, HEART, HAND)))
             else:
                 update = "UPDATE UserScore SET hair_score = %s, head_score = %s, heart_score = %s, hand_score = %s, result = %s WHERE user_id = %s;"
                 curs.execute(update, (HAIR, HEAD, HEART, HAND, res3(HAIR, HEART, HAND), user_id))
@@ -128,6 +259,7 @@ def survey_view(request):
             #curs.execute(update, (HAIR, HEAD, HEART, HAND, res3(HAIR, HEART, HAND), user_id))
             conn.commit()
             curs.close()
+            conn.close()
 
     else:
         roommate_form = RoommatePreferencesForm(instance=roommate_preferences)

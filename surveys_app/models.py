@@ -4,11 +4,11 @@ from django.conf import settings
 class RoommatePreferences(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
     CLEANING_CHOICES = [
-        (2, 'Strongly Agree'),
-        (1, 'Agree'),
-        (0, 'Neutral'),
-        (-1, 'Disagree'),
-        (-2, 'Strongly Disagree')
+        (2, ''),
+        (1, ''),
+        (0, ''),
+        (-1, ''),
+        (-2, '')
     ]
 
     clean_bathroom_periodically = models.IntegerField(choices=CLEANING_CHOICES,default=0)
