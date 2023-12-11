@@ -1,13 +1,12 @@
 .main_layout {
     position: relative;
     display: grid;
-    top: 0px;
     grid-template-columns: 250px 600px 250px;
     column-gap: 20px;
     padding: 20px 20px;
     margin: 90px auto 0px;
     width: 1180px;
-    height: 85%;
+    height: 80%;
 }
 .side_flex {
     display: flex;
