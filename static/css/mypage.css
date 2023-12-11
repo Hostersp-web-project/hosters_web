@@ -68,6 +68,8 @@
     padding: 1px 2px;
     margin-left: 5px;
     height: 24px;
+    border-radius: 3px;
+    border: #400000;
     font-size: 16px;
     font-family: "Pretendard";
     font-weight: 300;
@@ -103,6 +105,7 @@
     height: 40px;
 }
 .list div input {
+    width: 100;
 }
 .survey {
     margin: 30px auto 0px;
