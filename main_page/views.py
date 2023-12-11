@@ -8,11 +8,22 @@ import numpy as np
 import pandas as pd
 from django.contrib.auth.decorators import login_required
 # Create your views here.
-
-
+cols = ["user_id", "score", "result", "name", "age", "uni", "major", "bedtime", "uptime", "movein"]
+global ind
+global match
 def hosters_main(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')   # 로그인 URL로 리다이렉트
+    global match
+    global ind
+    match = pd.DataFrame(columns=cols)
+    print(match)
+    if len(match.index) <= 0:
+        ind = 0
+    if request.GET.get('NO') == 'NO':
+        ind += 1
+    if request.GET.get('YES') == 'YES':
+        ind += 1
     user_id = request.user.id
 
     conn = pymysql.connect(host ='db-k04ce-kr.vpc-pub-cdb.ntruss.com', user = 'alsrl', password = 'hosters123!', db = 'hosters-test', charset = 'utf8')
@@ -26,7 +37,6 @@ def hosters_main(request):
     sqlpc = "SELECT * FROM Positive_Check_List"
     PC = pd.read_sql(sqlpc, conn)
     
-    conn.close()
     if (user_id not in set(PC['member_id'])) or (user_id not in set(US['user_id'])) :
         return redirect('hosters:mypage')
 
@@ -97,50 +107,52 @@ def hosters_main(request):
         Rp = 100 - B
         D = C + P_C_L_S(user1_id, user2_id) * (Rp / 100)
         return D
-
-    def get_user_queue(user1_id, AU, max_users=15):
         """
+    def get_user_queue(user1_id, AU, max_users=15):
+       
         현재 시간을 기준으로 과거 방향으로 시간을 확장해가며 사용자를 찾아 큐를 초기화하는 함수
         """
-        current_time = datetime.now()
-        time_delta = timedelta(hours=1)
-        
-        res = deque()
-        removed_user={user1_id}
+    current_time = datetime.now()
+    time_delta = timedelta(hours=1)
+    sqlres = "SELECT * FROM UserScore WHERE user_id = "
+    sqluser = "SELECT * FROM User WHERE user_id = "
 
-        while True:
-            start_time = current_time - time_delta
-            users_in_time_window = AU[(AU['last_login'] >= start_time) & (AU['last_login'] <= current_time)]
-            score_list=[]
-            user_queue = set()
-            
-            # 큐에 사용자 추가
-            for new_user in users_in_time_window['id']:
-                if not (new_user in removed_user):
-                    user_queue.add(new_user)
-            
-            for i in user_queue:
-                user2_id = i
-                
-                D = scoreCalc(user1_id, user2_id)
-                score_list.append((user2_id, D))
+    
+    removed = {user_id}
 
-            score_list.sort(key=lambda x: -x[1])
+    while not len(match.loc[ind:].index) >= 15 or start_time <= AU['last_login'].min():
+        start_time = current_time - time_delta
+        users_in_time_window = AU[(AU['last_login'] >= start_time) & (AU['last_login'] <= current_time)]
+        score_list=[]
+        user_queue = set()
+        print(set(match["user_id"]))
+        removed = removed.union(set(match["user_id"]))
+        print(removed)
+        # 큐에 사용자 추가
+        for new_user in users_in_time_window['id']:
+            if not (new_user in removed):
+                user_queue.add(new_user)
 
-            for i in score_list:
-                res.append(i)
-                removed_user.add(i[0])
-            # 큐가 가득 찼거나 데이터프레임의 시작 시간에 도달했으면 중단
-            if len(res) >= max_users or start_time <= AU['last_login'].min():
-                break
+        for i in user_queue:
+            user2_id = i
+            D = scoreCalc(user_id, user2_id)
+            score_list.append((user2_id, D))
 
-            # 시간 범위 확장
-            current_time -= time_delta
+        score_list.sort(key=lambda x: -x[1])
 
-        return res
-    print(get_user_queue(user_id, AU))
-
-    return render(request, 'main_page/main.html')
+        for i in score_list:
+            print(sqlres+str(i[0]))
+            res = pd.read_sql(sqlres+str(i[0])+";", conn)["result"]
+            user = pd.read_sql(sqluser+str(i[0])+";", conn)
+            match.loc[len(match.index)] = [i[0], i[1], res, user["name"], user["age"], user["University"], user["major"], user["bedtime"], user["wake_up_time"], user["time_of_move_in"]]
+        # 큐가 가득 찼거나 데이터프레임의 시작 시간에 도달했으면 중단
+        # 시간 범위 확장
+        current_time -= time_delta
+    conn.close()
+    match["score"] = match["score"].round(1)
+    cards = match.loc[ind:ind+8].values.tolist()
+    scores = match.loc[ind:ind+8]["score"].tolist()
+    return render(request, 'main_page/main.html', {"cards":scores})
 
 def login(request):
     if request.user.is_authenticated:
@@ -240,8 +252,6 @@ def survey_view(request):
             HEART = (np.sum(N_C) - np.sum(N_D))/(len(N_C)+len(N_D))*25+50
             HAND = (np.sum(N_I) - np.sum(N_T))/(len(N_I)+len(N_T))*25+50
             # 필요한 경우 HEART 값을 조정
-
-            print(HAIR)
             
             sqlcheck = 'SELECT user_id FROM UserScore'
             check = pd.read_sql(sqlcheck, conn)
