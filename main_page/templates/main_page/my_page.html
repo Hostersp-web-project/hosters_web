@@ -8,13 +8,13 @@
         {% csrf_token %}
         <div class="form_flex">
             <div class="white">
-                <div class="account">
+                <div class="inform">
                     <h1 class="mycate">Information</h1>
                     <div class="information">
                         <div class="category">
                             <p>이름</p>
-                            <p>나이</p>
                             <p>성별</p>
+                            <p>나이</p>
                             <p>대학</p>
                             <p>전공</p>
                             <p>취침시간 (시)</p>
@@ -25,7 +25,7 @@
                             <p>인스타그램</p>
                             <p>카카오톡</p>
                         </div>
-                        <div class="value">{{ user_form.as_p }}</div>
+                        <div class="value">{{ user_form.as_div }}</div>
                     </div>
                 </div>
                 <div class="checklist">

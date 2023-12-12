@@ -19,8 +19,8 @@ class UserProfileForm(forms.ModelForm):
             'bedtime': forms.NumberInput(attrs={'class': 'form-control-time'}),
             'wake_up_time': forms.NumberInput(attrs={'class': 'form-control-time'}),
             'time_of_move_in': forms.NumberInput(attrs={'class': 'form-control-time'}),
+            'form': forms.Select(attrs={'class': 'form-control-form'}),
             'phone_number_1': forms.TextInput(attrs={'class': 'form-control-cont'}),
-            'form': forms.MultiValueField(attrs={'class': 'form-control-form'}),
             'instagram': forms.TextInput(attrs={'class': 'form-control-cont'}),
             'kakaotalk': forms.TextInput(attrs={'class': 'form-control-cont'})
         }

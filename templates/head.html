@@ -29,4 +29,26 @@
 
     <!-- DEFAULT CSS LINK -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}" />
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": "{{csrf_token}}" },
+        });
+        var cards;
+        // 현재 인덱스
+        $(document).ready(function () {
+            // 초기 페이지 로딩 시 카운트 값 불러오기
+            // 다음 버튼 클릭 시
+            $("#next-btn").click(function () {
+                $.ajax({
+                    url: "{% url 'hosters:increment' %}",
+                    type: "POST",
+                    success: function (data) {
+                        cards = data;
+                    },
+                });
+            });
+        });
+    </script>
 </head>

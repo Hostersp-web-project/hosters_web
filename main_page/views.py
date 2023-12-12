@@ -5,29 +5,25 @@ from datetime import datetime, timedelta
 import pymysql
 import numpy as np
 import pandas as pd
-from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+
+def increment(request):
+    count = request.session.get('count', 0)
+    count += 1
+    request.session['count'] = count
+    return JsonResponse({'count': count})
 # Create your views here.
 cols = ["user_id", "score", "result", "name", "age", "uni", "major", "bedtime", "uptime", "movein"]
 global ind
 global cards
-cards = pd.DataFrame(columns=cols)
 
 def hosters_main(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')   # 로그인 URL로 리다이렉트
-    
+    if 'count' not in request.session:
+        request.session['count'] = 0
+
     global cards
-    if request.method == 'POST':
-        if "NO" in request.POST:
-            request.session['ind'] = request.session.get('ind', 0) + 1
-        elif "YES" in request.POST:
-            request.session['ind'] = request.session.get('ind', 0) + 1
-        return redirect('hosters_main')
-    
-    ind = request.session.get('ind',0)
-
-    user_id = request.user.id
-
     conn = pymysql.connect(host ='db-k04ce-kr.vpc-pub-cdb.ntruss.com', user = 'alsrl', password = 'hosters123!', db = 'hosters-test', charset = 'utf8')
 
     sqlau = "SELECT * FROM auth_user"
@@ -38,6 +34,7 @@ def hosters_main(request):
     
     sqlpc = "SELECT * FROM Positive_Check_List"
     PC = pd.read_sql(sqlpc, conn)
+    user_id = request.user.id
     
     if (user_id not in set(PC['member_id'])) or (user_id not in set(US['user_id'])) :
         return redirect('hosters:mypage')
@@ -114,46 +111,47 @@ def hosters_main(request):
        
         현재 시간을 기준으로 과거 방향으로 시간을 확장해가며 사용자를 찾아 큐를 초기화하는 함수
         """
-    current_time = datetime.now()
-    time_delta = timedelta(hours=1)
-    sqlres = "SELECT * FROM UserScore WHERE user_id = "
-    sqluser = "SELECT * FROM User WHERE user_id = "
+    sqlres = "SELECT * FROM UserScore;"
+    sqluser = "SELECT * FROM User;"
+    res = pd.read_sql(sqlres, conn)[["user_id", "result"]]
+    user = pd.read_sql(sqluser, conn)
+    conn.close()
 
-    
-    removed = {user_id}
 
-    start_time = current_time - time_delta
-    while len(cards.index) <= 15 or start_time >= AU['last_login'].min():
-        start_time = current_time - time_delta
+    cards = pd.concat([res.merge(user, how='left', left_on='user_id', right_on='User_id'),AU["last_login"]], axis=1, join='inner')
+    print(cards)
+    cards["datesort"] = cards["last_login"].dt.date
+    cards["hoursort"] = cards["last_login"].dt.hour
+    cards = cards.set_index("user_id").drop(labels=user_id, axis=0)
+    cards = cards.sort_values(["datesort", "hoursort"], ascending=False)
+    cards["score"] = np.nan
+    cards = cards.drop(labels="User_id", axis=1).fillna(0)
+    print(cards)
+
+    if len(cards.iloc[ind:].index) >= 15:
+        """
         users_in_time_window = AU[(AU['last_login'] >= start_time) & (AU['last_login'] <= current_time)]
         score_list=[]
         user_queue = set()
         removed = removed.union(set(cards["user_id"]))
-        # 큐에 사용자 추가
-        for new_user in users_in_time_window['id']:
-            if not (new_user in removed):
-                user_queue.add(new_user)
-
-        for i in user_queue:
-            user2_id = i
-            D = scoreCalc(user_id, user2_id)
-            score_list.append((user2_id, D))
-
-        score_list.sort(key=lambda x: -x[1])
-
-        for i in score_list:
-            print(sqlres+str(i[0]))
-            res = pd.read_sql(sqlres+str(i[0])+";", conn)["result"]
-            user = pd.read_sql(sqluser+str(i[0])+";", conn)
-            cards.loc[len(cards.index)] = [i[0], i[1], res, user["name"], user["age"], user["University"], user["major"], user["bedtime"], user["wake_up_time"], user["time_of_move_in"]]
-            print(cards)
-        # 큐가 가득 찼거나 데이터프레임의 시작 시간에 도달했으면 중단
-        # 시간 범위 확장
-        current_time -= time_delta
-    conn.close()
+        """
+        ids = cards.index.values.tolist()
+        print(ids)
+        for i in range(15):
+            if cards.loc[ids[i+ind]]["score"] == 0:
+                D =scoreCalc(user_id, ids[i+ind])
+                #D = int(D)
+                print(D)
+                cards.at[ids[i+ind], "score"] = D
+        cards['datesort'] = pd.to_datetime(cards["datesort"])
+        cards['hoursort'] = cards['hoursort'].astype(int)
+        cards['score'] = cards['score'].astype(float)
+        cards = cards.sort_values(by =["datesort", "hoursort", "score"], ascending=False)
+        print(cards)
     cards["score"] = cards["score"].round(1)
-    scores = cards.loc[ind:ind+8].to_dict('records')
-    return render(request, 'main_page/main.html', {"cards":scores})
+    scores = cards.to_dict
+    print(scores)
+    return render(request, 'main_page/main.html', {"count":request.session['count']})
 
 def login(request):
     if request.user.is_authenticated:
