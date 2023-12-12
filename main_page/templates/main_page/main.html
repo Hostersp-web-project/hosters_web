@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="../../../static/css/main.css" />
 {% extends 'base.html' %} {%load static%} {% block content %}
+
 <body style="background: radial-gradient(#ffacac 41%, #ffe9e9 100%); top: 0px">
     {% include 'header.html' %}
     <div class="main_layout">
@@ -21,15 +22,18 @@
             <p style="padding-bottom: 50px">이제 남은 추천이 없어요.</p>
             <p>다시 돌아보려면 새로고침을 눌러주세요.</p>
             {% for card in cards %}
-            <div class="cards" id="card{{ forloop.counter }}">
-                <div class="red_color"></div>
-                <div class="white_color">
-                    <h1>{{ card }}%</h1>
-                    <form class="btn_layout" method="get" action="#">
-                        <input type="submit" value="NO" name="NO" />
-                        <input type="submit" value="MORE" name="MORE" />
-                        <input type="submit" value="YES" name="YES" />
-                    </form>
+            <div id="card-container">
+                <div class="cards" id="card{{ forloop.counter }}">
+                    <div class="red_color"></div>
+                    <div class="white_color">
+                        <h1>{{ card.score }}%</h1>
+                        <button id="yes-button" onclick="updateContent('YES')">
+                            YES
+                        </button>
+                        <button id="no-button" onclick="updateContent('NO')">
+                            NO
+                        </button>
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -42,4 +46,37 @@
     </div>
     {% include 'footer.html' %}
 </body>
+<script>
+    // 현재 인덱스
+    var ind = 0;
+
+    // 카드 데이터 (예시 데이터, 실제 데이터로 대체해야 함)
+    var cards = [
+        {
+            /* 카드 1의 데이터 */
+        },
+        {
+            /* 카드 2의 데이터 */
+        },
+        // ...
+    ];
+
+    function updateContent(action) {
+        if (action === "YES" || action === "NO") {
+            // 인덱스 업데이트
+            ind++;
+
+            // 다음 카드 표시 (여기서는 예시로 콘솔에 출력)
+            if (ind < cards.length) {
+                console.log(cards[ind]);
+                // 실제로는 이곳에서 카드 컨테이너의 내용을 업데이트합니다.
+                // 예: document.getElementById('card-container').innerHTML = '새로운 카드 콘텐츠';
+            } else {
+                // 카드가 더 이상 없을 때의 처리
+                console.log("더 이상의 카드가 없습니다.");
+                // 예: document.getElementById('card-container').innerHTML = '더 이상의 카드가 없습니다.';
+            }
+        }
+    }
+</script>
 {% endblock %}

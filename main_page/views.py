@@ -15,20 +15,16 @@ cards = pd.DataFrame(columns=cols)
 def hosters_main(request):
     if not request.user.is_authenticated:
         return redirect('hosters:login')   # 로그인 URL로 리다이렉트
-    global cards
-    ind = request.session.get('ind',0)
-    print(cards)    
-    print("NO: ", request.GET.get("NO"))
-    print("YES: ", request.GET.get("YES"))
-    if ind >= len(cards.index):
-        ind = 0
     
-    if request.GET.get('NO') == 'NO':
-        ind += 1
-        request.session['ind'] = ind
-    if request.GET.get('YES') == 'YES':
-        ind += 1
-        request.session['ind'] = ind
+    global cards
+    if request.method == 'POST':
+        if "NO" in request.POST:
+            request.session['ind'] = request.session.get('ind', 0) + 1
+        elif "YES" in request.POST:
+            request.session['ind'] = request.session.get('ind', 0) + 1
+        return redirect('hosters_main')
+    
+    ind = request.session.get('ind',0)
 
     user_id = request.user.id
 
@@ -156,7 +152,7 @@ def hosters_main(request):
         current_time -= time_delta
     conn.close()
     cards["score"] = cards["score"].round(1)
-    scores = cards.loc[ind:ind+8]["score"].tolist()
+    scores = cards.loc[ind:ind+8].to_dict('records')
     return render(request, 'main_page/main.html', {"cards":scores})
 
 def login(request):

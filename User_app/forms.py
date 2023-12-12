@@ -13,12 +13,14 @@ class UserProfileForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control-name'}),
             'age': forms.NumberInput(attrs={'class': 'form-control-time'}),
+            'gender': forms.RadioSelect(attrs={'class': 'form-control-radio'}),
             'university': forms.TextInput(attrs={'class': 'form-control-uni'}),
             'major': forms.TextInput(attrs={'class': 'form-control-uni'}),
             'bedtime': forms.NumberInput(attrs={'class': 'form-control-time'}),
             'wake_up_time': forms.NumberInput(attrs={'class': 'form-control-time'}),
             'time_of_move_in': forms.NumberInput(attrs={'class': 'form-control-time'}),
             'phone_number_1': forms.TextInput(attrs={'class': 'form-control-cont'}),
+            'form': forms.MultiValueField(attrs={'class': 'form-control-form'}),
             'instagram': forms.TextInput(attrs={'class': 'form-control-cont'}),
-            'kakaotalk': forms.TextInput(attrs={'class': 'form-control-cont'}),
+            'kakaotalk': forms.TextInput(attrs={'class': 'form-control-cont'})
         }
