@@ -44,8 +44,8 @@
                 $.ajax({
                     url: "{% url 'hosters:increment' %}",
                     type: "POST",
-                    success: function (data) {
-                        cards = data;
+                    success: function (ind, data) {
+                        $("#count-display").text(data.score.score);
                     },
                 });
             });

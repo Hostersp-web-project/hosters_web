@@ -7,151 +7,44 @@ import numpy as np
 import pandas as pd
 from django.http import JsonResponse
 
-def increment(request):
-    count = request.session.get('count', 0)
-    count += 1
-    request.session['count'] = count
-    return JsonResponse({'count': count})
+
 # Create your views here.
-cols = ["user_id", "score", "result", "name", "age", "uni", "major", "bedtime", "uptime", "movein"]
-global ind
-global cards
+global calculator
+def increment(request):
+    global calculator
+    ind = request.session.get('ind', 0)
+    ind += 1
+    request.session['ind'] = ind
+    # ScoreCalculator 클래스의 인스턴스 생성
+    # 점수 계산 및 가져오기
+    scores = calculator.get_scores(request.session.get('ind', 0))
+    print({'ind': request.session.get('ind', 0), "score": scores[request.session.get('ind', 0)]})
+    return JsonResponse({'ind': request.session.get('ind', 0), "score": scores[request.session.get('ind', 0)]})
+
 
 def hosters_main(request):
+    global calculator
     if not request.user.is_authenticated:
-        return redirect('hosters:login')   # 로그인 URL로 리다이렉트
-    if 'count' not in request.session:
-        request.session['count'] = 0
+        return redirect('hosters:login')  # 로그인 URL로 리다이렉트
+    calculator = ScoreCalculator(user_id=request.user.id)
+    if 'ind' not in request.session:
+        request.session['ind'] = 0
 
-    global cards
-    conn = pymysql.connect(host ='db-k04ce-kr.vpc-pub-cdb.ntruss.com', user = 'alsrl', password = 'hosters123!', db = 'hosters-test', charset = 'utf8')
+    # ScoreCalculator 클래스의 인스턴스 생성
 
-    sqlau = "SELECT * FROM auth_user"
-    AU = pd.read_sql(sqlau, conn)
-    
-    sqlus = "SELECT * FROM UserScore"
-    US = pd.read_sql(sqlus, conn)
-    
-    sqlpc = "SELECT * FROM Positive_Check_List"
-    PC = pd.read_sql(sqlpc, conn)
-    user_id = request.user.id
-    
-    if (user_id not in set(PC['member_id'])) or (user_id not in set(US['user_id'])) :
-        return redirect('hosters:mypage')
+    # ind 값을 세팅
 
-    US = US.set_index('user_id')
-    PC = PC.set_index('member_id')
-        
-    # S 가중치 계산함수
-    def S_weight(user_id):
-        X = US.at[user_id, 'head_score']*(20/100)
-        return X
+    # 카드 설정
+    calculator.set_cards()
 
-    def HAIR_Score(user1_id, user2_id):
-        # 인덱스를 사용하여 HAIR 값을 검색합니다.
-        user1_H1_score = US.at[user1_id, 'hair_score']
-        user2_H1_score = US.at[user2_id, 'hair_score']
-
-        # 기존의 계산을 그대로 사용합니다.
-        x = user1_H1_score - 50
-        y = user2_H1_score - 50
-        H1 = np.abs(x - y)
-
-        return H1
-
-    def HEART_Score(user1_id, user2_id):
-        user1_H1_score = US.at[user1_id, 'heart_score']
-        user2_H1_score = US.at[user2_id, 'heart_score']
-        x = user1_H1_score - 50
-        y = user2_H1_score - 50
-        H3 = np.abs(x-y)
-        return H3
-
-    def HAND_Score(user1_id, user2_id):
-        user1_H1_score = US.at[user1_id, 'hand_score']
-        user2_H1_score = US.at[user2_id, 'hand_score']
-        x = user1_H1_score - 50
-        y = user2_H1_score - 50
-        H4 = np.abs(x-y)
-        return H4
-
-    def P_C_L_S(user1_id, user2_id):
-        # 사용자 ID를 인덱스로 사용하여 두 사용자의 취미 데이터를 가져옵니다.
-        user1_hobbies = PC.loc[user1_id]
-        user2_hobbies = PC.loc[user2_id]
-
-        # 1 값을 가지는 취미들의 집합을 구합니다.
-        user1_hobbies_set = set(user1_hobbies[user1_hobbies == 1].index)
-        user2_hobbies_set = set(user2_hobbies[user2_hobbies == 1].index)
-
-        # 공통 취미활동 집합
-        common_hobbies = user1_hobbies_set.intersection(user2_hobbies_set)
-
-        # 합집합 취미활동 집합
-        all_hobbies = user1_hobbies_set.union(user2_hobbies_set)
-
-        # Jaccard 유사도 계산
-        if not all_hobbies:  # 합집합이 비어있는 경우
-            return 0
-        jaccard_similarity = len(common_hobbies) / len(all_hobbies)
-
-        return jaccard_similarity * 100  # 백분율로 반환
-
-
-        
-    def scoreCalc(user1_id, user2_id):
-        A = 300 - (HAIR_Score(user1_id, user2_id) + HEART_Score(user1_id, user2_id) + HAND_Score(user1_id, user2_id))
-        B = 75 + S_weight(user1_id)
-        C = A * (B / 300)
-        Rp = 100 - B
-        D = C + P_C_L_S(user1_id, user2_id) * (Rp / 100)
-        return D
-        """
-    def get_user_queue(user1_id, AU, max_users=15):
-       
-        현재 시간을 기준으로 과거 방향으로 시간을 확장해가며 사용자를 찾아 큐를 초기화하는 함수
-        """
-    sqlres = "SELECT * FROM UserScore;"
-    sqluser = "SELECT * FROM User;"
-    res = pd.read_sql(sqlres, conn)[["user_id", "result"]]
-    user = pd.read_sql(sqluser, conn)
-    conn.close()
-
-
-    cards = pd.concat([res.merge(user, how='left', left_on='user_id', right_on='User_id'),AU["last_login"]], axis=1, join='inner')
-    print(cards)
-    cards["datesort"] = cards["last_login"].dt.date
-    cards["hoursort"] = cards["last_login"].dt.hour
-    cards = cards.set_index("user_id").drop(labels=user_id, axis=0)
-    cards = cards.sort_values(["datesort", "hoursort"], ascending=False)
-    cards["score"] = np.nan
-    cards = cards.drop(labels="User_id", axis=1).fillna(0)
-    print(cards)
-
-    if len(cards.iloc[ind:].index) >= 15:
-        """
-        users_in_time_window = AU[(AU['last_login'] >= start_time) & (AU['last_login'] <= current_time)]
-        score_list=[]
-        user_queue = set()
-        removed = removed.union(set(cards["user_id"]))
-        """
-        ids = cards.index.values.tolist()
-        print(ids)
-        for i in range(15):
-            if cards.loc[ids[i+ind]]["score"] == 0:
-                D =scoreCalc(user_id, ids[i+ind])
-                #D = int(D)
-                print(D)
-                cards.at[ids[i+ind], "score"] = D
-        cards['datesort'] = pd.to_datetime(cards["datesort"])
-        cards['hoursort'] = cards['hoursort'].astype(int)
-        cards['score'] = cards['score'].astype(float)
-        cards = cards.sort_values(by =["datesort", "hoursort", "score"], ascending=False)
-        print(cards)
-    cards["score"] = cards["score"].round(1)
-    scores = cards.to_dict
+    # 점수 계산 및 가져오기
+    scores = calculator.get_scores(request.session.get('ind', 0))
     print(scores)
-    return render(request, 'main_page/main.html', {"count":request.session['count']})
+    # 데이터베이스 연결 종료
+    #calculator.close_database_connection()
+
+    return render(request, 'main_page/main.html', {"ind": request.session.get('ind', 0), "score": request.session.get('ind', 0)})
+
 
 def login(request):
     if request.user.is_authenticated:
@@ -320,3 +213,121 @@ def res3(hair, heart, hand):
     return mutual_likes
 
 '''
+
+class ScoreCalculator:
+    def __init__(self, user_id):
+        self.user_id = user_id
+        self.cards = None
+        self.AU = None
+        self.US = None
+        self.PC = None
+        self.res = None
+        self.user = None
+        self.ids = None
+    def set_cards(self):
+        host = 'db-k04ce-kr.vpc-pub-cdb.ntruss.com'
+        user = 'alsrl'
+        password = 'hosters123!'
+        db = 'hosters-test'
+        charset = 'utf8'
+
+        try:
+            conn = pymysql.connect(host=host, user=user, password=password, db=db, charset=charset)
+            print("Successfully connected to the database.")
+        except pymysql.Error as e:
+            print(f"Error connecting to the database: {e}")
+
+        sqlau = "SELECT * FROM auth_user"
+        sqlus = "SELECT * FROM UserScore"
+        sqlpc = "SELECT * FROM Positive_Check_List"
+        sqluser = "SELECT * FROM User"
+
+        self.AU = pd.read_sql(sqlau, conn)
+        self.US = pd.read_sql(sqlus, conn).set_index('user_id')
+        self.PC = pd.read_sql(sqlpc, conn).set_index('member_id')
+        self.res = pd.read_sql(sqlus, conn)[["user_id", "result"]]
+        self.user = pd.read_sql(sqluser, conn)
+
+        conn.close()
+        print("Database connection closed.")
+
+        cards = pd.concat(
+            [self.res.merge(self.user, how='left', left_on='user_id', right_on='User_id'), self.AU["last_login"]],
+            axis=1, join='inner')
+        cards["datesort"] = cards["last_login"].dt.date
+        cards["hoursort"] = cards["last_login"].dt.hour
+        cards = cards.set_index("user_id").drop(labels=self.user_id, axis=0)
+        cards = cards.sort_values(["datesort", "hoursort"], ascending=False)
+        cards["score"] = np.nan
+        self.ids = cards.index.values.tolist()
+        print(self.ids)
+        self.cards = cards.drop(labels="User_id", axis=1).fillna(0)
+        return self.cards
+
+    def S_weight(self, user_id):
+        X = self.US.at[user_id, 'head_score']*(20/100)
+        return X
+
+    def HAIR_Score(self, user1_id, user2_id):
+        user1_H1_score = self.US.at[user1_id, 'hair_score']
+        user2_H1_score = self.US.at[user2_id, 'hair_score']
+        x = user1_H1_score - 50
+        y = user2_H1_score - 50
+        H1 = np.abs(x - y)
+        return H1
+
+    def HEART_Score(self, user1_id, user2_id):
+        user1_H1_score = self.US.at[user1_id, 'heart_score']
+        user2_H1_score = self.US.at[user2_id, 'heart_score']
+        x = user1_H1_score - 50
+        y = user2_H1_score - 50
+        H3 = np.abs(x - y)
+        return H3
+
+    def HAND_Score(self, user1_id, user2_id):
+        user1_H1_score = self.US.at[user1_id, 'hand_score']
+        user2_H1_score = self.US.at[user2_id, 'hand_score']
+        x = user1_H1_score - 50
+        y = user2_H1_score - 50
+        H4 = np.abs(x - y)
+        return H4
+
+    def P_C_L_S(self, user1_id, user2_id):
+        user1_hobbies = self.PC.loc[user1_id]
+        user2_hobbies = self.PC.loc[user2_id]
+        user1_hobbies_set = set(user1_hobbies[user1_hobbies == 1].index)
+        user2_hobbies_set = set(user2_hobbies[user2_hobbies == 1].index)
+        common_hobbies = user1_hobbies_set.intersection(user2_hobbies_set)
+        all_hobbies = user1_hobbies_set.union(user2_hobbies_set)
+        if not all_hobbies:
+            return 0
+        jaccard_similarity = len(common_hobbies) / len(all_hobbies)
+        return jaccard_similarity * 100
+
+    def scoreCalc(self, user1_id, user2_id):
+        A = 300 - (self.HAIR_Score(user1_id, user2_id) + self.HEART_Score(user1_id, user2_id) + self.HAND_Score(
+            user1_id, user2_id))
+        B = 75 + self.S_weight(user1_id)
+        C = A * (B / 300)
+        Rp = 100 - B
+        D = C + self.P_C_L_S(user1_id, user2_id) * (Rp / 100)
+        return D
+
+    def calculate_scores(self, ind):
+        cards = self.cards
+        print(len(cards.iloc[ind:].index))
+        if len(cards.iloc[ind:].index) >= 15:
+            for i in range(15):
+                if cards.loc[self.ids[i + ind]]["score"] == 0:
+                    cards.at[self.ids[i + ind], "score"] = self.scoreCalc(self.user_id, self.ids[i + ind])
+            cards['datesort'] = pd.to_datetime(cards["datesort"])
+            cards['hoursort'] = cards['hoursort'].astype(int)
+            cards['score'] = cards['score'].astype(float)
+            cards = cards.sort_values(by=["datesort", "hoursort", "score"], ascending=False)
+        cards["score"] = cards["score"].round(1)
+        return cards
+
+    def get_scores(self, ind):
+        cards = self.calculate_scores(ind)
+        scores = cards.to_dict('records')
+        return scores
