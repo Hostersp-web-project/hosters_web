@@ -1,4 +1,4 @@
-FROM python:3.12.0-alpine
+FROM nginx-1.25.3
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
